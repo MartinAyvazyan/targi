@@ -64,7 +64,7 @@ spec before changing a feature.
 - **Single source of truth for state.** `RootNavigator` owns the `periods` array
   and all mutations (`addPeriod`, `keepToday`, `resetPeriod`, `deletePeriod`,
   `editPeriod`, `setNextMilestone`). Screens are presentational and receive data
-  + callbacks via props. Keep mutation logic in `RootNavigator`.
+  - callbacks via props. Keep mutation logic in `RootNavigator`.
 - **No business logic in JSX files.** Derived values (streaks, saved money,
   health insights) live in `src/utils/period.ts`. Reuse those helpers instead of
   re-deriving inline.
@@ -80,17 +80,17 @@ spec before changing a feature.
 
 ## Feature specs
 
-| Spec | Covers |
-| --- | --- |
-| [`data-model.md`](./data-model.md) | `RecoveryPeriod`, persistence, normalization |
-| [`navigation.md`](./navigation.md) | Tabs, app state ownership, global modals |
-| [`home.md`](./home.md) | "Today" screen + inline check-in |
-| [`add-period.md`](./add-period.md) | Create-period wizard |
-| [`progress.md`](./progress.md) | Progress list + detail page |
-| [`daily-check-in.md`](./daily-check-in.md) | Check-in modal & streak logic |
-| [`notifications.md`](./notifications.md) | Daily reminder scheduling/sync |
-| [`onboarding.md`](./onboarding.md) | First-run onboarding |
-| [`styling.md`](./styling.md) | Theme / StyleSheet conventions |
+| Spec                                       | Covers                                       |
+| ------------------------------------------ | -------------------------------------------- |
+| [`data-model.md`](./data-model.md)         | `RecoveryPeriod`, persistence, normalization |
+| [`navigation.md`](./navigation.md)         | Tabs, app state ownership, global modals     |
+| [`home.md`](./home.md)                     | "Today" screen + inline check-in             |
+| [`add-period.md`](./add-period.md)         | Create-period wizard                         |
+| [`progress.md`](./progress.md)             | Progress list + detail page                  |
+| [`daily-check-in.md`](./daily-check-in.md) | Check-in modal & streak logic                |
+| [`notifications.md`](./notifications.md)   | Daily reminder scheduling/sync               |
+| [`onboarding.md`](./onboarding.md)         | First-run onboarding                         |
+| [`styling.md`](./styling.md)               | Theme / StyleSheet conventions               |
 
 ## Updating these docs
 

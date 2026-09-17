@@ -25,24 +25,20 @@ export function ProgressScreen({
   const selectedPeriod = periods.find((period) => period.id === selectedPeriodId);
 
   const confirmDelete = (period: RecoveryPeriod) => {
-    Alert.alert(
-      'Ջնջե՞լ ընթացքը',
-      `«${period.title}» ընթացքը ամբողջությամբ կջնջվի:`,
-      [
-        {
-          text: 'Չեղարկել',
-          style: 'cancel',
+    Alert.alert('Ջնջե՞լ ընթացքը', `«${period.title}» ընթացքը ամբողջությամբ կջնջվի:`, [
+      {
+        text: 'Չեղարկել',
+        style: 'cancel',
+      },
+      {
+        text: 'Ջնջել',
+        style: 'destructive',
+        onPress: () => {
+          setSelectedPeriodId(undefined);
+          onDelete(period.id);
         },
-        {
-          text: 'Ջնջել',
-          style: 'destructive',
-          onPress: () => {
-            setSelectedPeriodId(undefined);
-            onDelete(period.id);
-          },
-        },
-      ],
-    );
+      },
+    ]);
   };
 
   if (selectedPeriod) {
@@ -67,22 +63,35 @@ export function ProgressScreen({
         ListHeaderComponent={
           <View style={styles.listHeader}>
             <Text style={styles.eyebrow}>Առաջընթաց</Text>
-            <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.62} style={styles.title}>
+            <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.62}
+              style={styles.title}
+            >
               Քո ընթացքները
             </Text>
-            <Text style={styles.body}>Սեղմիր քարտին՝ նշաձողերը, առողջական փոփոխությունները եւ խնայված գումարը տեսնելու համար:</Text>
+            <Text style={styles.body}>
+              Սեղմիր քարտին՝ նշաձողերը, առողջական փոփոխությունները եւ խնայված գումարը տեսնելու
+              համար:
+            </Text>
           </View>
         }
         ListEmptyComponent={
           <View style={styles.emptyState}>
             <Text style={styles.panelTitle}>Դեռ ընթացք չկա</Text>
-            <Text style={styles.panelText}>Սկսիր փոքրից. այսօր ընտրիր միայն մեկ բան, որից ուզում ես ազատվել:</Text>
+            <Text style={styles.panelText}>
+              Սկսիր փոքրից. այսօր ընտրիր միայն մեկ բան, որից ուզում ես ազատվել:
+            </Text>
           </View>
         }
         renderItem={({ item }) => {
           const type = getType(item.addictionTypeId);
           const currentDays = getCurrentRunDays(item);
-          const milestoneProgress = Math.min(100, Math.round((currentDays / item.currentMilestoneDays) * 100));
+          const milestoneProgress = Math.min(
+            100,
+            Math.round((currentDays / item.currentMilestoneDays) * 100),
+          );
           const remainingDays = Math.max(item.currentMilestoneDays - currentDays, 0);
           const savedMoney = getSavedMoney(item);
 
@@ -95,8 +104,12 @@ export function ProgressScreen({
             >
               <View style={styles.cardHeader}>
                 <View style={styles.cardTitleBlock}>
-                  <Text numberOfLines={1} style={styles.cardTitle}>{item.title}</Text>
-                  <Text numberOfLines={1} style={styles.cardSubtitle}>{type.label} / {item.subtype ?? 'Ընդհանուր'}</Text>
+                  <Text numberOfLines={1} style={styles.cardTitle}>
+                    {item.title}
+                  </Text>
+                  <Text numberOfLines={1} style={styles.cardSubtitle}>
+                    {type.label} / {item.subtype ?? 'Ընդհանուր'}
+                  </Text>
                 </View>
               </View>
 
@@ -108,9 +121,7 @@ export function ProgressScreen({
                     {currentDays}/{item.currentMilestoneDays} օր · մնաց {remainingDays}
                   </Text>
                 </View>
-                {savedMoney > 0 && (
-                  <Text style={styles.moneyChip}>{formatMoney(savedMoney)}</Text>
-                )}
+                {savedMoney > 0 && <Text style={styles.moneyChip}>{formatMoney(savedMoney)}</Text>}
               </View>
               <View style={styles.cardProgressTrack}>
                 <View style={[styles.cardProgressFill, { width: `${milestoneProgress}%` }]} />

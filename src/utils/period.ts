@@ -53,7 +53,9 @@ export function getMilestonePreview(typeId: string, days: number) {
 
 export function getNextMilestoneOptions(currentMilestoneDays: number) {
   const largerOptions = milestoneOptions.filter((days) => days > currentMilestoneDays);
-  return largerOptions.length > 0 ? largerOptions.slice(0, 4) : [currentMilestoneDays + 30, currentMilestoneDays + 60];
+  return largerOptions.length > 0
+    ? largerOptions.slice(0, 4)
+    : [currentMilestoneDays + 30, currentMilestoneDays + 60];
 }
 
 export function isDueForCheckIn(period: RecoveryPeriod) {
@@ -76,7 +78,9 @@ export function normalizePeriod(period: RecoveryPeriod): RecoveryPeriod {
     reminderTime: period.reminderTime ?? DEFAULT_REMINDER_TIME,
     currentStreak: period.currentStreak ?? currentDays,
     bestStreak: period.bestStreak ?? currentDays,
-    totalCleanDays: period.totalCleanDays ?? Math.max(period.currentStreak ?? currentDays, period.bestStreak ?? currentDays),
+    totalCleanDays:
+      period.totalCleanDays ??
+      Math.max(period.currentStreak ?? currentDays, period.bestStreak ?? currentDays),
     dailyCost: period.dailyCost ?? 0,
     currentMilestoneDays,
     completedMilestones: period.completedMilestones ?? [],

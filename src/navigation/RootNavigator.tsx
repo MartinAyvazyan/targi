@@ -26,7 +26,12 @@ import {
   notificationMatchesReminderTime,
   scheduleDailyCheckNotification,
 } from '../utils/notifications';
-import { getCurrentRunDays, getTotalCleanDays, isDueForCheckIn, normalizePeriod } from '../utils/period';
+import {
+  getCurrentRunDays,
+  getTotalCleanDays,
+  isDueForCheckIn,
+  normalizePeriod,
+} from '../utils/period';
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
@@ -44,10 +49,7 @@ export function RootNavigator() {
     () => [...periods].sort((a, b) => b.createdAt.localeCompare(a.createdAt)),
     [periods],
   );
-  const checkInPeriods = useMemo(
-    () => sortedPeriods.filter(isDueForCheckIn),
-    [sortedPeriods],
-  );
+  const checkInPeriods = useMemo(() => sortedPeriods.filter(isDueForCheckIn), [sortedPeriods]);
   const visibleCheckInPeriods = useMemo(() => {
     if (!targetCheckInPeriodId) {
       return checkInPeriods;
@@ -168,7 +170,9 @@ export function RootNavigator() {
 
       for (const period of sortedPeriods) {
         const requests = requestsByPeriod.get(period.id) ?? [];
-        const matchingRequest = requests.find((request) => notificationMatchesReminderTime(request, period.reminderTime));
+        const matchingRequest = requests.find((request) =>
+          notificationMatchesReminderTime(request, period.reminderTime),
+        );
         const keepIdentifier = matchingRequest?.identifier;
 
         await Promise.all(
@@ -306,7 +310,9 @@ export function RootNavigator() {
           actionLabel: 'Հետարկել',
           onUndo: () => {
             clearUndo();
-            setPeriods((items) => items.map((item) => (item.id === previousPeriod.id ? previousPeriod : item)));
+            setPeriods((items) =>
+              items.map((item) => (item.id === previousPeriod.id ? previousPeriod : item)),
+            );
           },
         });
 
@@ -331,7 +337,10 @@ export function RootNavigator() {
     );
   };
 
-  const editPeriod = (id: string, updates: Partial<Pick<RecoveryPeriod, 'dailyCost' | 'title'>>) => {
+  const editPeriod = (
+    id: string,
+    updates: Partial<Pick<RecoveryPeriod, 'dailyCost' | 'title'>>,
+  ) => {
     setPeriods((current) =>
       current.map((period) =>
         period.id === id
@@ -345,11 +354,9 @@ export function RootNavigator() {
   };
 
   const setNextMilestone = (id: string, days: number) => {
-    Alert.alert(
-      'Նշաձողը պահված է',
-      `Հիանալի քայլ էր: Հաջորդ նպատակը՝ ${days} օր:`,
-      [{ text: 'Շարունակել' }],
-    );
+    Alert.alert('Նշաձողը պահված է', `Հիանալի քայլ էր: Հաջորդ նպատակը՝ ${days} օր:`, [
+      { text: 'Շարունակել' },
+    ]);
     setPeriods((current) =>
       current.map((period) =>
         period.id === id

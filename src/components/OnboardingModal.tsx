@@ -47,14 +47,20 @@ export function OnboardingModal({
             {slides.map((slide) => (
               <View
                 key={slide.title}
-                style={[styles.onboardingDot, slide.title === current.title && styles.onboardingDotActive]}
+                style={[
+                  styles.onboardingDot,
+                  slide.title === current.title && styles.onboardingDotActive,
+                ]}
               />
             ))}
           </View>
         </View>
         <View style={styles.onboardingActions}>
           {step > 0 && (
-            <Pressable onPress={() => setStep((currentStep) => currentStep - 1)} style={styles.backButton}>
+            <Pressable
+              onPress={() => setStep((currentStep) => currentStep - 1)}
+              style={styles.backButton}
+            >
               <Text style={styles.backButtonText}>Հետ</Text>
             </Pressable>
           )}

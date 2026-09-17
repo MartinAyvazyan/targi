@@ -61,7 +61,10 @@ export function AddScreen({
   const isOtherSelected = selectedSubtypes.includes('Այլ');
   const selectedMilestonePreview = getMilestonePreview(selectedTypeId, milestoneDays);
   const milestonePickerOptions = milestoneOptions.slice(0, 5);
-  const defaultTitle = effectiveSubtypes.length > 0 ? formatSubtypeTitle(effectiveSubtypes) : `Առանց ${selectedType.label}-ի`;
+  const defaultTitle =
+    effectiveSubtypes.length > 0
+      ? formatSubtypeTitle(effectiveSubtypes)
+      : `Առանց ${selectedType.label}-ի`;
   const scrollFocusedInputIntoView = () => {
     // Native keyboard insets handle this better than forcing a jump to the end.
   };
@@ -80,7 +83,11 @@ export function AddScreen({
 
   const updateTitleForSubtypes = (subtypes: string[], customValues = customSubtypes) => {
     const nextEffectiveSubtypes = getEffectiveSubtypes(subtypes, customValues);
-    setTitle(nextEffectiveSubtypes.length > 0 ? formatSubtypeTitle(nextEffectiveSubtypes) : `Առանց ${selectedType.label}-ի`);
+    setTitle(
+      nextEffectiveSubtypes.length > 0
+        ? formatSubtypeTitle(nextEffectiveSubtypes)
+        : `Առանց ${selectedType.label}-ի`,
+    );
   };
 
   const selectType = (type: AddictionType) => {
@@ -169,7 +176,9 @@ export function AddScreen({
     const finalSubtype = finalEffectiveSubtypes.join(', ') || 'Ընդհանուր';
     const finalTitle =
       title.trim() ||
-      (finalEffectiveSubtypes.length > 0 ? formatSubtypeTitle(finalEffectiveSubtypes) : `Առանց ${selectedType.label}-ի`);
+      (finalEffectiveSubtypes.length > 0
+        ? formatSubtypeTitle(finalEffectiveSubtypes)
+        : `Առանց ${selectedType.label}-ի`);
 
     if (!/^\d{4}-\d{2}-\d{2}$/.test(startDate)) {
       Alert.alert('Ստուգիր ամսաթիվը', 'Օգտագործիր ձեւաչափը YYYY-MM-DD, օրինակ՝ 2026-05-03:');
@@ -264,38 +273,50 @@ export function AddScreen({
         >
           {stage === 1 && (
             <View style={styles.stagePanelFill}>
-            <Text style={[styles.stepLabel, isCompact && styles.stepLabelCompact]}>Ընտրիր հիմնական տեսակը</Text>
-            <View style={styles.optionList}>
-              {addictionTypes.map((type) => (
-                <Pressable
-                  key={type.id}
-                  onPress={() => selectType(type)}
-                  style={[
-                    styles.optionRow,
-                    isCompact && styles.optionRowCompact,
-                    selectedTypeId === type.id && styles.optionRowSelected,
-                  ]}
-                >
-                  <View style={[styles.optionIcon, selectedTypeId === type.id && styles.optionIconSelected]}>
-                    <Ionicons
-                      name={type.iconName}
-                      size={22}
-                      color={selectedTypeId === type.id ? '#ffffff' : '#0f766e'}
-                    />
-                  </View>
-                  <View style={styles.optionTextBlock}>
-                    <Text
-                      numberOfLines={1}
-                      adjustsFontSizeToFit
-                      style={[styles.optionTitle, selectedTypeId === type.id && styles.optionTitleSelected]}
+              <Text style={[styles.stepLabel, isCompact && styles.stepLabelCompact]}>
+                Ընտրիր հիմնական տեսակը
+              </Text>
+              <View style={styles.optionList}>
+                {addictionTypes.map((type) => (
+                  <Pressable
+                    key={type.id}
+                    onPress={() => selectType(type)}
+                    style={[
+                      styles.optionRow,
+                      isCompact && styles.optionRowCompact,
+                      selectedTypeId === type.id && styles.optionRowSelected,
+                    ]}
+                  >
+                    <View
+                      style={[
+                        styles.optionIcon,
+                        selectedTypeId === type.id && styles.optionIconSelected,
+                      ]}
                     >
-                      {type.label}
-                    </Text>
-                    <Text numberOfLines={1} style={styles.optionMeta}>{type.subtypes.slice(0, 2).join(', ')}</Text>
-                  </View>
-                </Pressable>
-              ))}
-            </View>
+                      <Ionicons
+                        name={type.iconName}
+                        size={22}
+                        color={selectedTypeId === type.id ? '#ffffff' : '#0f766e'}
+                      />
+                    </View>
+                    <View style={styles.optionTextBlock}>
+                      <Text
+                        numberOfLines={1}
+                        adjustsFontSizeToFit
+                        style={[
+                          styles.optionTitle,
+                          selectedTypeId === type.id && styles.optionTitleSelected,
+                        ]}
+                      >
+                        {type.label}
+                      </Text>
+                      <Text numberOfLines={1} style={styles.optionMeta}>
+                        {type.subtypes.slice(0, 2).join(', ')}
+                      </Text>
+                    </View>
+                  </Pressable>
+                ))}
+              </View>
             </View>
           )}
 
@@ -323,118 +344,132 @@ export function AddScreen({
                 </Text>
               </View>
 
-            <Text style={[styles.stepLabel, isCompact && styles.stepLabelCompact]}>Մեկնարկի ամսաթիվ</Text>
-            {Platform.OS === 'web' ? (
-              <View style={styles.webDateShell}>
-                <TextInput
-                  value={startDate}
-                  onChangeText={setStartDate}
-                  style={styles.webDateInput}
-                  {...({ type: 'date' } as object)}
-                />
-                <Ionicons name="calendar-outline" size={24} color="#0f766e" />
-              </View>
-            ) : (
-              <>
-                <Pressable onPress={() => setIsDatePickerOpen(true)} style={styles.dateBox}>
-                  <View>
-                    <Text style={styles.dateBoxLabel}>Սկիզբ</Text>
-                    <Text style={styles.dateBoxValue}>{formatDateHy(startDate)}</Text>
-                  </View>
+              <Text style={[styles.stepLabel, isCompact && styles.stepLabelCompact]}>
+                Մեկնարկի ամսաթիվ
+              </Text>
+              {Platform.OS === 'web' ? (
+                <View style={styles.webDateShell}>
+                  <TextInput
+                    value={startDate}
+                    onChangeText={setStartDate}
+                    style={styles.webDateInput}
+                    {...({ type: 'date' } as object)}
+                  />
                   <Ionicons name="calendar-outline" size={24} color="#0f766e" />
-                </Pressable>
-                {isDatePickerOpen && Platform.OS === 'android' && (
-                  <DateTimePicker
-                    value={parseDateKey(startDate)}
-                    mode="date"
-                    display="default"
-                    accentColor="#0f766e"
-                    themeVariant="light"
-                    onChange={updateStartDate}
+                </View>
+              ) : (
+                <>
+                  <Pressable onPress={() => setIsDatePickerOpen(true)} style={styles.dateBox}>
+                    <View>
+                      <Text style={styles.dateBoxLabel}>Սկիզբ</Text>
+                      <Text style={styles.dateBoxValue}>{formatDateHy(startDate)}</Text>
+                    </View>
+                    <Ionicons name="calendar-outline" size={24} color="#0f766e" />
+                  </Pressable>
+                  {isDatePickerOpen && Platform.OS === 'android' && (
+                    <DateTimePicker
+                      value={parseDateKey(startDate)}
+                      mode="date"
+                      display="default"
+                      accentColor="#0f766e"
+                      themeVariant="light"
+                      onChange={updateStartDate}
+                    />
+                  )}
+                </>
+              )}
+              {Platform.OS === 'web' && (
+                <Text style={styles.webDateHint}>{formatDateHy(startDate)}</Text>
+              )}
+
+              <Text style={[styles.stepLabel, isCompact && styles.stepLabelCompact]}>
+                Առաջին նշաձող
+              </Text>
+              <Pressable
+                onPress={() => {
+                  setExpandedMilestoneDays(milestoneDays);
+                  setIsMilestonePickerOpen(true);
+                }}
+                style={styles.dateBox}
+              >
+                <View style={styles.dateBoxTextBlock}>
+                  <Text style={styles.dateBoxLabel}>Նպատակ</Text>
+                  <Text style={styles.dateBoxValue}>{milestoneDays} օր</Text>
+                  <Text numberOfLines={1} style={styles.dateBoxHint}>
+                    {selectedMilestonePreview.title}
+                  </Text>
+                </View>
+                <Ionicons name="flag-outline" size={24} color="#0f766e" />
+              </Pressable>
+
+              <Text style={[styles.stepLabel, isCompact && styles.stepLabelCompact]}>
+                Հիշեցման ժամ
+              </Text>
+              {Platform.OS === 'web' ? (
+                <View style={styles.webDateShell}>
+                  <TextInput
+                    value={reminderTime}
+                    onChangeText={setReminderTime}
+                    style={styles.webDateInput}
+                    {...({ type: 'time' } as object)}
                   />
-                )}
-              </>
-            )}
-            {Platform.OS === 'web' && (
-              <Text style={styles.webDateHint}>{formatDateHy(startDate)}</Text>
-            )}
-
-            <Text style={[styles.stepLabel, isCompact && styles.stepLabelCompact]}>Առաջին նշաձող</Text>
-            <Pressable
-              onPress={() => {
-                setExpandedMilestoneDays(milestoneDays);
-                setIsMilestonePickerOpen(true);
-              }}
-              style={styles.dateBox}
-            >
-              <View style={styles.dateBoxTextBlock}>
-                <Text style={styles.dateBoxLabel}>Նպատակ</Text>
-                <Text style={styles.dateBoxValue}>{milestoneDays} օր</Text>
-                <Text numberOfLines={1} style={styles.dateBoxHint}>{selectedMilestonePreview.title}</Text>
-              </View>
-              <Ionicons name="flag-outline" size={24} color="#0f766e" />
-            </Pressable>
-
-            <Text style={[styles.stepLabel, isCompact && styles.stepLabelCompact]}>Հիշեցման ժամ</Text>
-            {Platform.OS === 'web' ? (
-              <View style={styles.webDateShell}>
-                <TextInput
-                  value={reminderTime}
-                  onChangeText={setReminderTime}
-                  style={styles.webDateInput}
-                  {...({ type: 'time' } as object)}
-                />
-                <Ionicons name="notifications-outline" size={24} color="#0f766e" />
-              </View>
-            ) : (
-              <>
-                <Pressable onPress={() => setIsTimePickerOpen(true)} style={styles.dateBox}>
-                  <View>
-                    <Text style={styles.dateBoxLabel}>Ամեն օր</Text>
-                    <Text style={styles.dateBoxValue}>{formatReminderTime(reminderTime)}</Text>
-                  </View>
                   <Ionicons name="notifications-outline" size={24} color="#0f766e" />
-                </Pressable>
-                {isTimePickerOpen && Platform.OS === 'android' && (
-                  <DateTimePicker
-                    value={reminderTimeToDate(reminderTime)}
-                    mode="time"
-                    display="default"
-                    accentColor="#0f766e"
-                    themeVariant="light"
-                    onChange={updateReminderTime}
-                  />
-                )}
-              </>
-            )}
+                </View>
+              ) : (
+                <>
+                  <Pressable onPress={() => setIsTimePickerOpen(true)} style={styles.dateBox}>
+                    <View>
+                      <Text style={styles.dateBoxLabel}>Ամեն օր</Text>
+                      <Text style={styles.dateBoxValue}>{formatReminderTime(reminderTime)}</Text>
+                    </View>
+                    <Ionicons name="notifications-outline" size={24} color="#0f766e" />
+                  </Pressable>
+                  {isTimePickerOpen && Platform.OS === 'android' && (
+                    <DateTimePicker
+                      value={reminderTimeToDate(reminderTime)}
+                      mode="time"
+                      display="default"
+                      accentColor="#0f766e"
+                      themeVariant="light"
+                      onChange={updateReminderTime}
+                    />
+                  )}
+                </>
+              )}
 
-            <View style={styles.optionalPanel}>
-              <Text style={[styles.stepLabel, isCompact && styles.stepLabelCompact]}>Անուն</Text>
-              <TextInput
-                value={title}
-                onChangeText={setTitle}
-                placeholder={defaultTitle}
-                placeholderTextColor="#8a8f98"
-                style={styles.input}
-                onFocus={scrollFocusedInputIntoView}
-              />
+              <View style={styles.optionalPanel}>
+                <Text style={[styles.stepLabel, isCompact && styles.stepLabelCompact]}>Անուն</Text>
+                <TextInput
+                  value={title}
+                  onChangeText={setTitle}
+                  placeholder={defaultTitle}
+                  placeholderTextColor="#8a8f98"
+                  style={styles.input}
+                  onFocus={scrollFocusedInputIntoView}
+                />
 
-              <Text style={[styles.stepLabel, isCompact && styles.stepLabelCompact]}>Օրական ծախս (ոչ պարտադիր)</Text>
-              <TextInput
-                value={dailyCost}
-                onChangeText={setDailyCost}
-                keyboardType="numeric"
-                returnKeyType="done"
-                blurOnSubmit
-                placeholder="Օրինակ՝ 1500 ֏"
-                placeholderTextColor="#8a8f98"
-                style={styles.input}
-                onFocus={scrollFocusedInputIntoView}
-              />
-            </View>
+                <Text style={[styles.stepLabel, isCompact && styles.stepLabelCompact]}>
+                  Օրական ծախս (ոչ պարտադիր)
+                </Text>
+                <TextInput
+                  value={dailyCost}
+                  onChangeText={setDailyCost}
+                  keyboardType="numeric"
+                  returnKeyType="done"
+                  blurOnSubmit
+                  placeholder="Օրինակ՝ 1500 ֏"
+                  placeholderTextColor="#8a8f98"
+                  style={styles.input}
+                  onFocus={scrollFocusedInputIntoView}
+                />
+              </View>
 
-              <Text style={[styles.stepLabel, isCompact && styles.stepLabelCompact]}>Ենթատեսակներ (ոչ պարտադիր)</Text>
-              <Text style={styles.helperText}>Ընտրիր, եթե ուզում ես անունը եւ հիշեցումները ավելի անձնական լինեն:</Text>
+              <Text style={[styles.stepLabel, isCompact && styles.stepLabelCompact]}>
+                Ենթատեսակներ (ոչ պարտադիր)
+              </Text>
+              <Text style={styles.helperText}>
+                Ընտրիր, եթե ուզում ես անունը եւ հիշեցումները ավելի անձնական լինեն:
+              </Text>
               <View style={styles.optionGrid}>
                 {selectedType.subtypes.map((subtype) => (
                   <Pressable
@@ -449,7 +484,10 @@ export function AddScreen({
                     <Text
                       numberOfLines={2}
                       adjustsFontSizeToFit
-                      style={[styles.optionTitle, selectedSubtypes.includes(subtype) && styles.optionTitleSelected]}
+                      style={[
+                        styles.optionTitle,
+                        selectedSubtypes.includes(subtype) && styles.optionTitleSelected,
+                      ]}
                     >
                       {subtype}
                     </Text>
@@ -482,7 +520,9 @@ export function AddScreen({
                           onPress={() => removeCustomSubtype(customSubtype)}
                           style={styles.customSubtypeChip}
                         >
-                          <Text numberOfLines={1} style={styles.customSubtypeChipText}>{customSubtype}</Text>
+                          <Text numberOfLines={1} style={styles.customSubtypeChipText}>
+                            {customSubtype}
+                          </Text>
                           <Ionicons name="close" size={14} color="#0f766e" />
                         </Pressable>
                       ))}
@@ -495,7 +535,8 @@ export function AddScreen({
                 <View style={styles.safetyNote}>
                   <Ionicons name="alert-circle-outline" size={20} color="#c2410c" />
                   <Text style={styles.safetyNoteText}>
-                    Եթե կան ուժեղ ֆիզիկական ախտանիշներ կամ վտանգավոր վիճակ, դիմիր բժշկի կամ զանգիր 911/103:
+                    Եթե կան ուժեղ ֆիզիկական ախտանիշներ կամ վտանգավոր վիճակ, դիմիր բժշկի կամ զանգիր
+                    911/103:
                   </Text>
                 </View>
               )}
@@ -503,15 +544,15 @@ export function AddScreen({
           )}
         </ScrollView>
 
-        <View
-          style={[
-            styles.fixedStepActions,
-            isCompact && styles.fixedStepActionsCompact,
-          ]}
-        >
+        <View style={[styles.fixedStepActions, isCompact && styles.fixedStepActionsCompact]}>
           {stage === 1 ? (
             <Pressable onPress={() => setStage(2)} style={styles.nextButtonFull}>
-              <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.72} style={styles.nextButtonText}>
+              <Text
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                minimumFontScale={0.72}
+                style={styles.nextButtonText}
+              >
                 Ընտրել եւ շարունակել
               </Text>
             </Pressable>
@@ -520,10 +561,7 @@ export function AddScreen({
               <Pressable onPress={() => setStage(1)} style={styles.backButton}>
                 <Text style={styles.backButtonText}>Հետ</Text>
               </Pressable>
-              <Pressable
-                onPress={createPeriod}
-                style={styles.primaryButtonInline}
-              >
+              <Pressable onPress={createPeriod} style={styles.primaryButtonInline}>
                 <Text style={styles.primaryButtonText}>Սկսել հիմա</Text>
               </Pressable>
             </>
@@ -536,7 +574,10 @@ export function AddScreen({
             <View style={styles.datePopover}>
               <View style={styles.datePopoverHeader}>
                 <Text style={styles.datePopoverTitle}>Ընտրիր ամսաթիվը</Text>
-                <Pressable onPress={() => setIsDatePickerOpen(false)} style={styles.dateCloseButton}>
+                <Pressable
+                  onPress={() => setIsDatePickerOpen(false)}
+                  style={styles.dateCloseButton}
+                >
                   <Ionicons name="close" size={20} color="#111827" />
                 </Pressable>
               </View>
@@ -561,7 +602,10 @@ export function AddScreen({
             <View style={styles.datePopover}>
               <View style={styles.datePopoverHeader}>
                 <Text style={styles.datePopoverTitle}>Ընտրիր ժամը</Text>
-                <Pressable onPress={() => setIsTimePickerOpen(false)} style={styles.dateCloseButton}>
+                <Pressable
+                  onPress={() => setIsTimePickerOpen(false)}
+                  style={styles.dateCloseButton}
+                >
                   <Ionicons name="close" size={20} color="#111827" />
                 </Pressable>
               </View>
@@ -585,7 +629,10 @@ export function AddScreen({
           <View style={styles.datePopover}>
             <View style={styles.datePopoverHeader}>
               <Text style={styles.datePopoverTitle}>Ընտրիր նշաձողը</Text>
-              <Pressable onPress={() => setIsMilestonePickerOpen(false)} style={styles.dateCloseButton}>
+              <Pressable
+                onPress={() => setIsMilestonePickerOpen(false)}
+                style={styles.dateCloseButton}
+              >
                 <Ionicons name="close" size={20} color="#111827" />
               </Pressable>
             </View>
@@ -596,7 +643,10 @@ export function AddScreen({
                 const isExpanded = expandedMilestoneDays === days;
 
                 return (
-                  <View key={days} style={[styles.milestoneOption, isSelected && styles.milestoneOptionSelected]}>
+                  <View
+                    key={days}
+                    style={[styles.milestoneOption, isSelected && styles.milestoneOptionSelected]}
+                  >
                     <Pressable
                       onPress={() => {
                         setMilestoneDays(days);
@@ -605,7 +655,12 @@ export function AddScreen({
                       style={styles.milestoneOptionMain}
                     >
                       <View style={styles.cardTitleBlock}>
-                        <Text style={[styles.milestoneOptionTitle, isSelected && styles.milestoneOptionTitleSelected]}>
+                        <Text
+                          style={[
+                            styles.milestoneOptionTitle,
+                            isSelected && styles.milestoneOptionTitleSelected,
+                          ]}
+                        >
                           {days} օր
                         </Text>
                         <Text numberOfLines={1} style={styles.milestoneOptionSubtitle}>
@@ -622,19 +677,24 @@ export function AddScreen({
                       onPress={() => setExpandedMilestoneDays(isExpanded ? 0 : days)}
                       style={styles.milestoneInfoButton}
                     >
-                      <Ionicons name={isExpanded ? 'chevron-up' : 'information-circle-outline'} size={17} color="#0f766e" />
+                      <Ionicons
+                        name={isExpanded ? 'chevron-up' : 'information-circle-outline'}
+                        size={17}
+                        color="#0f766e"
+                      />
                       <Text style={styles.milestoneInfoButtonText}>
                         {isExpanded ? 'Փակել' : 'Ինչ կփոխվի'}
                       </Text>
                     </Pressable>
-                    {isExpanded && (
-                      <Text style={styles.milestoneOptionBody}>{preview.body}</Text>
-                    )}
+                    {isExpanded && <Text style={styles.milestoneOptionBody}>{preview.body}</Text>}
                   </View>
                 );
               })}
             </View>
-            <Pressable onPress={() => setIsMilestonePickerOpen(false)} style={styles.nextButtonFull}>
+            <Pressable
+              onPress={() => setIsMilestonePickerOpen(false)}
+              style={styles.nextButtonFull}
+            >
               <Text style={styles.nextButtonText}>Ընտրել</Text>
             </Pressable>
           </View>

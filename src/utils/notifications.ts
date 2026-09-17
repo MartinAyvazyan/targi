@@ -23,7 +23,10 @@ export function getNotificationRequestPeriodId(request: Notifications.Notificati
   return typeof periodId === 'string' ? periodId : undefined;
 }
 
-export function notificationMatchesReminderTime(request: Notifications.NotificationRequest, reminderTime: string) {
+export function notificationMatchesReminderTime(
+  request: Notifications.NotificationRequest,
+  reminderTime: string,
+) {
   const trigger = request.trigger as { hour?: number; minute?: number } | null;
   const { hour, minute } = parseReminderTime(reminderTime);
   return trigger?.hour === hour && trigger?.minute === minute;

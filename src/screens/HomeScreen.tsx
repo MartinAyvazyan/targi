@@ -25,10 +25,7 @@ export function HomeScreen({
   const isCompactHome = height < 820;
   const isTinyHome = height < 720;
   const hasPeriods = periods.length > 0;
-  const longestRun = periods.reduce(
-    (max, period) => Math.max(max, getCurrentRunDays(period)),
-    0,
-  );
+  const longestRun = periods.reduce((max, period) => Math.max(max, getCurrentRunDays(period)), 0);
   const insightPeriod = periods
     .slice()
     .sort((a, b) => getCurrentRunDays(b) - getCurrentRunDays(a))[0];
@@ -80,21 +77,31 @@ export function HomeScreen({
           <View style={[styles.homeCheckPanel, isCompactHome && styles.homeCheckPanelCompact]}>
             <Text style={styles.homeCheckTitle}>Ինչպե՞ս անցավ այսօրը</Text>
             {!isTinyHome && (
-              <Text style={styles.homeCheckText}>Նշիր առանց դատելու. սա պարզապես օգնում է պահել ընթացքը:</Text>
+              <Text style={styles.homeCheckText}>
+                Նշիր առանց դատելու. սա պարզապես օգնում է պահել ընթացքը:
+              </Text>
             )}
             {duePeriods.map((period) => (
               <View key={period.id} style={styles.homeCheckItem}>
                 <View style={styles.cardTitleBlock}>
-                  <Text numberOfLines={1} style={styles.homeCheckName}>{period.title}</Text>
-                  <Text style={styles.homeCheckMeta}>{getCurrentRunDays(period)} օր ընթացիկ շարք</Text>
+                  <Text numberOfLines={1} style={styles.homeCheckName}>
+                    {period.title}
+                  </Text>
+                  <Text style={styles.homeCheckMeta}>
+                    {getCurrentRunDays(period)} օր ընթացիկ շարք
+                  </Text>
                 </View>
                 <View style={styles.homeCheckActions}>
                   <Pressable onPress={() => onKeep(period.id)} style={styles.homeKeepButton}>
                     <Ionicons name="checkmark-circle" size={16} color="#ffffff" />
-                    <Text numberOfLines={1} adjustsFontSizeToFit style={styles.homeKeepButtonText}>Մաքուր օր էր</Text>
+                    <Text numberOfLines={1} adjustsFontSizeToFit style={styles.homeKeepButtonText}>
+                      Մաքուր օր էր
+                    </Text>
                   </Pressable>
                   <Pressable onPress={() => onSlip(period.id)} style={styles.homeSlipButton}>
-                    <Text numberOfLines={1} adjustsFontSizeToFit style={styles.homeSlipButtonText}>Դժվար օր էր</Text>
+                    <Text numberOfLines={1} adjustsFontSizeToFit style={styles.homeSlipButtonText}>
+                      Դժվար օր էր
+                    </Text>
                   </Pressable>
                 </View>
               </View>
@@ -103,62 +110,94 @@ export function HomeScreen({
         )}
 
         {showStartButton && (
-        <View style={[styles.homeStartButtonWrap, isCompactHome && styles.homeStartButtonWrapCompact]}>
-          <Pressable onPress={() => navigation.navigate('Add')} style={styles.homeStartButton}>
-            <View style={styles.homeStartIcon}>
-              <Ionicons name="add" size={23} color="#ffffff" />
-            </View>
-            <View style={styles.cardTitleBlock}>
-              <Text style={styles.homeStartTitle}>Սկսել</Text>
-              <Text style={styles.homeStartText}>Նոր ընթացք, նշաձող եւ հիշեցում</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={20} color="#0f766e" />
-          </Pressable>
-        </View>
+          <View
+            style={[styles.homeStartButtonWrap, isCompactHome && styles.homeStartButtonWrapCompact]}
+          >
+            <Pressable onPress={() => navigation.navigate('Add')} style={styles.homeStartButton}>
+              <View style={styles.homeStartIcon}>
+                <Ionicons name="add" size={23} color="#ffffff" />
+              </View>
+              <View style={styles.cardTitleBlock}>
+                <Text style={styles.homeStartTitle}>Սկսել</Text>
+                <Text style={styles.homeStartText}>Նոր ընթացք, նշաձող եւ հիշեցում</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={20} color="#0f766e" />
+            </Pressable>
+          </View>
         )}
 
         {showSummary && (
-        <View style={[styles.summaryPanel, isCompactHome && styles.summaryPanelCompact]}>
-          <View style={styles.summaryHeader}>
-            <View>
-              <Text style={styles.summaryKicker}>Քո այսօրն է</Text>
-              <Text style={styles.summaryTitle}>
-                {periods.length > 0 ? `${periods.length} ակտիվ ընթացք` : 'Սկսելու պահն է'}
-              </Text>
+          <View style={[styles.summaryPanel, isCompactHome && styles.summaryPanelCompact]}>
+            <View style={styles.summaryHeader}>
+              <View>
+                <Text style={styles.summaryKicker}>Քո այսօրն է</Text>
+                <Text style={styles.summaryTitle}>
+                  {periods.length > 0 ? `${periods.length} ակտիվ ընթացք` : 'Սկսելու պահն է'}
+                </Text>
+              </View>
+              <View style={styles.summaryIcon}>
+                <Ionicons name="leaf-outline" size={24} color="#ffffff" />
+              </View>
             </View>
-            <View style={styles.summaryIcon}>
-              <Ionicons name="leaf-outline" size={24} color="#ffffff" />
+            <View style={styles.summaryRows}>
+              <View style={styles.summaryRow}>
+                <Text
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                  minimumFontScale={0.58}
+                  style={styles.summaryLabel}
+                >
+                  Ստուգում հիմա
+                </Text>
+                <Text
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                  minimumFontScale={0.82}
+                  style={styles.summaryValue}
+                >
+                  {dueChecks > 0 ? `${dueChecks} սպասում է` : 'մաքուր է'}
+                </Text>
+              </View>
+              <View style={styles.summaryRow}>
+                <Text
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                  minimumFontScale={0.58}
+                  style={styles.summaryLabel}
+                >
+                  Հաջորդ հիշեցում
+                </Text>
+                <Text
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                  minimumFontScale={0.78}
+                  style={styles.summaryValue}
+                >
+                  {nextReminder
+                    ? `${formatReminderTime(nextReminder.period.reminderTime)} · ${nextReminder.period.title}`
+                    : 'դեռ չկա'}
+                </Text>
+              </View>
+              <View style={styles.summaryRow}>
+                <Text
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                  minimumFontScale={0.58}
+                  style={styles.summaryLabel}
+                >
+                  Ամենաերկար շարք
+                </Text>
+                <Text
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                  minimumFontScale={0.82}
+                  style={styles.summaryValue}
+                >
+                  {longestRun} օր
+                </Text>
+              </View>
             </View>
           </View>
-          <View style={styles.summaryRows}>
-            <View style={styles.summaryRow}>
-              <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.58} style={styles.summaryLabel}>
-                Ստուգում հիմա
-              </Text>
-              <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.82} style={styles.summaryValue}>
-                {dueChecks > 0 ? `${dueChecks} սպասում է` : 'մաքուր է'}
-              </Text>
-            </View>
-            <View style={styles.summaryRow}>
-              <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.58} style={styles.summaryLabel}>
-                Հաջորդ հիշեցում
-              </Text>
-              <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.78} style={styles.summaryValue}>
-                {nextReminder
-                  ? `${formatReminderTime(nextReminder.period.reminderTime)} · ${nextReminder.period.title}`
-                  : 'դեռ չկա'}
-              </Text>
-            </View>
-            <View style={styles.summaryRow}>
-              <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.58} style={styles.summaryLabel}>
-                Ամենաերկար շարք
-              </Text>
-              <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.82} style={styles.summaryValue}>
-                {longestRun} օր
-              </Text>
-            </View>
-          </View>
-        </View>
         )}
 
         {showHealthInsight && (
@@ -175,27 +214,27 @@ export function HomeScreen({
         )}
 
         {showReminder && (
-        <View style={styles.notePanel}>
-          <Text style={styles.panelTitle}>Փոքր հիշեցում</Text>
-          <Text style={styles.panelText}>{dailyReminder}</Text>
-        </View>
+          <View style={styles.notePanel}>
+            <Text style={styles.panelTitle}>Փոքր հիշեցում</Text>
+            <Text style={styles.panelText}>{dailyReminder}</Text>
+          </View>
         )}
 
         {showHelp && (
-        <View style={styles.helpPanel}>
-          <View style={styles.healthInsightIcon}>
-            <Ionicons name="heart-circle-outline" size={22} color="#0f766e" />
+          <View style={styles.helpPanel}>
+            <View style={styles.healthInsightIcon}>
+              <Ionicons name="heart-circle-outline" size={22} color="#0f766e" />
+            </View>
+            <View style={styles.cardTitleBlock}>
+              <Text style={styles.panelTitle}>Օգնություն</Text>
+              <Text style={styles.panelText}>
+                Եթե վտանգավոր վիճակ է կամ ուժեղ ֆիզիկական ախտանիշներ կան, զանգիր 911/103 կամ դիմիր
+                բժշկի:
+              </Text>
+            </View>
           </View>
-          <View style={styles.cardTitleBlock}>
-            <Text style={styles.panelTitle}>Օգնություն</Text>
-            <Text style={styles.panelText}>
-              Եթե վտանգավոր վիճակ է կամ ուժեղ ֆիզիկական ախտանիշներ կան, զանգիր 911/103 կամ դիմիր բժշկի:
-            </Text>
-          </View>
-        </View>
         )}
       </ScrollView>
-
     </SafeAreaView>
   );
 }
