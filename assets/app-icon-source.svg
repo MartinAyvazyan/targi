@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <rect width="1024" height="1024" fill="#f6f4ee"/>
+  <text
+    x="512"
+    y="626"
+    text-anchor="middle"
+    font-family="Noto Sans Armenian, Arial Unicode MS, Arial, sans-serif"
+    font-size="520"
+    font-weight="800"
+    fill="#0f766e">Թ</text>
+  <rect x="316" y="724" width="392" height="34" rx="17" fill="#0b5f59"/>
+</svg>

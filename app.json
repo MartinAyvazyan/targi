@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "name": "Targi",
+    "slug": "targi",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#f6f4ee"
+    },
+    "ios": {
+      "bundleIdentifier": "com.ayvazyan.targi",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.ayvazyan.targi",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#f6f4ee"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "@react-native-community/datetimepicker",
+      [
+        "expo-notifications",
+        {
+          "defaultChannel": "daily-check"
+        }
+      ],
+      "expo-font"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "2a77921a-bc80-464e-8e4d-34cc0b54b25c"
+      }
+    }
+  }
+}
