@@ -41,9 +41,9 @@ The "Սկսել" (Start) tab: a 2-step wizard to create a new `RecoveryPeriod`.
 1. Commit pending custom subtype; compute final subtype + title.
 2. Validate `startDate` matches `YYYY-MM-DD` (else Alert, abort).
 3. Build `RecoveryPeriod`; initial streak = `daysBetween(startDate, today())`.
-4. `scheduleDailyCheckNotification` (best-effort; failure is non-fatal).
-5. `onAdd(newPeriod)`; if native and no notificationId, warn about permissions.
-6. Reset all local form state and navigate to `Progress`.
+4. `onAdd(newPeriod)`.
+5. Reset all local form state and navigate to `Progress`. Day totals then
+   advance automatically from `startDate`.
 
 ## Layout
 The screen's `SafeAreaView` uses `edges={['top', 'left', 'right']}` (bottom edge
@@ -58,10 +58,10 @@ Tracks `isKeyboardOpen` via `Keyboard` listeners; the stage `ScrollView` uses
 
 ## Key dependencies
 - `src/data/addictionTypes.ts`
-- `src/constants.ts`: `DEFAULT_REMINDER_TIME`, `DEFAULT_MILESTONE_DAYS`, `milestoneOptions`
-- `src/utils/date.ts`, `src/utils/reminders.ts`, `src/utils/period.ts`
-- `src/utils/notifications.ts`: `scheduleDailyCheckNotification`
+- `src/constants.ts`: `DEFAULT_MILESTONE_DAYS`, `milestoneOptions`
+- `src/utils/date.ts`, `src/utils/period.ts`
+- `src/i18n.tsx`: localized labels and actions
 
 ## Notes for changes
 - The progress label says "Քայլ {stage} / 2" — keep in sync if you add stages.
-- Platform branches (web vs ios vs android) exist for every picker; update all.
+- Platform branches (web vs ios vs android) exist for the date picker; update all.

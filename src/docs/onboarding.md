@@ -1,32 +1,10 @@
 # Spec: Onboarding
 
-## Files
-- `src/components/OnboardingModal.tsx` — the 3-slide intro
-- `src/navigation/RootNavigator.tsx` — visibility + persistence
+`OnboardingModal` is a three-page first-run introduction. Copy is localized via
+`useLanguage`, and the language picker is available at the top. Pages use a
+horizontal, paging-enabled `FlatList`, so users can swipe or use Back/Continue.
 
-## Purpose
-A one-time, full-screen 3-slide intro shown on first launch explaining what the
-app is, the daily check-in habit, and that slipping is not failure.
-
-## Props
-```ts
-{
-  visible: boolean;
-  onComplete: () => void;
-}
-```
-
-## Behavior
-- Local `step` (0..2). Slides defined inline (`icon`, `title`, `body`).
-- "Շարունակել" advances; on the last slide the button reads "Սկսենք" and calls
-  `onComplete`. A "Հետ" (back) button appears after the first slide.
-- Progress dots reflect the current slide.
-
-## Persistence (RootNavigator)
-- On load: `showOnboarding = storedOnboarding !== 'done'` using AsyncStorage key
-  `targi-onboarding-v1` (`ONBOARDING_KEY`).
-- `completeOnboarding()` writes `'done'` and hides the modal.
-
-## Notes for changes
-- To force re-onboarding (e.g. major redesign), bump `ONBOARDING_KEY`.
-- Keep copy in the component; it's short-form UI text, not a shared catalog.
+The copy explains automatic day counting and the explicit lapse action. It does
+not mention daily confirmation or reminders. Completion is persisted under
+`targi-onboarding-v2`; the v2 key intentionally shows this redesigned onboarding
+once to existing users.

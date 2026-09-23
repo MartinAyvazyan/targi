@@ -1,12 +1,12 @@
-import { DEFAULT_MILESTONE_DAYS, DEFAULT_REMINDER_TIME, milestoneOptions } from '../constants';
-import { addictionTypes } from '../data/addictionTypes';
-import { healthImprovementTexts } from '../data/healthImprovements';
+import { DEFAULT_MILESTONE_DAYS, milestoneOptions } from '../constants';
+import { getAddictionTypes } from '../data/addictionTypes';
+import { healthImprovementTexts, healthImprovementTextsEn } from '../data/healthImprovements';
+import type { Language } from '../i18n';
 import type { IoniconName, RecoveryPeriod } from '../types';
 import { daysBetween, today } from './date';
-import { hasReminderTimePassed } from './reminders';
 
 export function getCurrentRunDays(period: RecoveryPeriod) {
-  return period.currentStreak ?? daysBetween(period.startDate, today());
+  return Math.max(0, daysBetween(period.startDate, today()));
 }
 
 export function getSavedMoney(period: RecoveryPeriod) {
@@ -14,16 +14,17 @@ export function getSavedMoney(period: RecoveryPeriod) {
 }
 
 export function getTotalCleanDays(period: RecoveryPeriod) {
-  return period.totalCleanDays ?? Math.max(getCurrentRunDays(period), period.bestStreak ?? 0);
+  return (period.cleanDaysBeforeCurrentRun ?? 0) + getCurrentRunDays(period);
 }
 
-export function getHealthImprovements(period: RecoveryPeriod) {
-  return healthImprovementTexts[period.addictionTypeId] ?? healthImprovementTexts.custom;
+export function getHealthImprovements(period: RecoveryPeriod, language: Language = 'hy') {
+  const source = language === 'en' ? healthImprovementTextsEn : healthImprovementTexts;
+  return source[period.addictionTypeId] ?? source.custom;
 }
 
-export function getCurrentHealthInsight(period: RecoveryPeriod) {
+export function getCurrentHealthInsight(period: RecoveryPeriod, language: Language = 'hy') {
   const currentDays = getCurrentRunDays(period);
-  const improvements = getHealthImprovements(period);
+  const improvements = getHealthImprovements(period, language);
   return [...improvements].reverse().find((item) => item.day <= currentDays) ?? improvements[0];
 }
 
@@ -46,8 +47,9 @@ export function getHealthIcon(typeId: string): IoniconName {
   return 'sparkles-outline';
 }
 
-export function getMilestonePreview(typeId: string, days: number) {
-  const improvements = healthImprovementTexts[typeId] ?? healthImprovementTexts.custom;
+export function getMilestonePreview(typeId: string, days: number, language: Language = 'hy') {
+  const source = language === 'en' ? healthImprovementTextsEn : healthImprovementTexts;
+  const improvements = source[typeId] ?? source.custom;
   return [...improvements].reverse().find((item) => item.day <= days) ?? improvements[0];
 }
 
@@ -56,12 +58,9 @@ export function getNextMilestoneOptions(currentMilestoneDays: number) {
   return largerOptions.length > 0 ? largerOptions.slice(0, 4) : [currentMilestoneDays + 30, currentMilestoneDays + 60];
 }
 
-export function isDueForCheckIn(period: RecoveryPeriod) {
-  return period.lastCheckInDate !== today() && hasReminderTimePassed(period.reminderTime);
-}
-
-export function getType(typeId: string) {
-  return addictionTypes.find((type) => type.id === typeId) ?? addictionTypes[0];
+export function getType(typeId: string, language: Language = 'hy') {
+  const types = getAddictionTypes(language);
+  return types.find((type) => type.id === typeId) ?? types[0];
 }
 
 export function normalizePeriod(period: RecoveryPeriod): RecoveryPeriod {
@@ -73,10 +72,10 @@ export function normalizePeriod(period: RecoveryPeriod): RecoveryPeriod {
     ...period,
     subtype: period.subtype ?? type.subtypes[0],
     originalStartDate: period.originalStartDate ?? period.startDate,
-    reminderTime: period.reminderTime ?? DEFAULT_REMINDER_TIME,
-    currentStreak: period.currentStreak ?? currentDays,
-    bestStreak: period.bestStreak ?? currentDays,
-    totalCleanDays: period.totalCleanDays ?? Math.max(period.currentStreak ?? currentDays, period.bestStreak ?? currentDays),
+    currentStreak: currentDays,
+    bestStreak: Math.max(period.bestStreak ?? 0, currentDays),
+    cleanDaysBeforeCurrentRun: period.cleanDaysBeforeCurrentRun ?? Math.max(0, (period.totalCleanDays ?? currentDays) - (period.currentStreak ?? currentDays)),
+    totalCleanDays: period.totalCleanDays ?? currentDays,
     dailyCost: period.dailyCost ?? 0,
     currentMilestoneDays,
     completedMilestones: period.completedMilestones ?? [],

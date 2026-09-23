@@ -19,7 +19,7 @@ Keys are grouped by screen/feature prefix:
 - `summary*`, `healthInsight*` — Home summary/insight cards
 - `stage*`, `option*`, `subtype*`, `milestone*`, `date*`, `web*` — Add wizard
 - `detail*`, `health*`, `metric*`, `card*` — Progress list/detail
-- `modal*`, `check*`, `keep*`, `miss*` — check-in modal
+- `language*` — language pickers
 - `onboarding*` — onboarding
 - `undo*` — undo snackbar
 - `tab*` — bottom tab bar

@@ -1,8 +1,8 @@
 # Targi — Architecture & Project Structure
 
-Targi is an Expo / React Native app (Armenian-language UI) that helps users track
+Targi is an Expo / React Native app (Armenian and English UI) that helps users track
 recovery streaks from different addictions: pick what you want to quit, start a
-"recovery period", check in daily, hit milestones, and watch health + money
+"recovery period", hit milestones, and watch health + money
 benefits accrue.
 
 This document is the entry point for any developer or AI agent working on the
@@ -20,29 +20,27 @@ spec before changing a feature.
 - **Expo** `~54` / **React Native** `0.81` / **React** `19`
 - **@react-navigation/bottom-tabs** for navigation (3 tabs: Home, Add, Progress)
 - **@react-native-async-storage/async-storage** for persistence
-- **expo-notifications** for daily check-in reminders
-- **@react-native-community/datetimepicker** for date/time pickers
+- **@react-native-community/datetimepicker** for date pickers
 - TypeScript in `strict` mode
 
 ## Folder structure
 
 ```
 .
-├── App.tsx                     # Root: SafeAreaProvider + RootNavigator only
+├── App.tsx                     # Root providers + RootNavigator
 ├── index.ts                    # Expo entry (registerRootComponent)
 └── src/
     ├── types.ts                # Shared TypeScript types (RecoveryPeriod, etc.)
-    ├── constants.ts            # Storage keys + defaults (reminder time, milestones)
+    ├── constants.ts            # Storage keys + milestone defaults
+    ├── i18n.tsx                # Persisted Armenian/English language context
     ├── data/                   # Static content (Armenian copy & catalogs)
     │   ├── addictionTypes.ts   # Catalog of addiction types + subtypes
     │   ├── healthImprovements.ts # Per-type health-benefit timeline
-    │   └── motivation.ts       # motivationTexts + reminderTexts arrays
+    │   └── motivation.ts       # Localized rotating support messages
     ├── utils/                  # Pure logic, no JSX
     │   ├── date.ts             # Date-key helpers (toDateKey, daysBetween, ...)
-    │   ├── reminders.ts        # Reminder-time parsing/formatting
     │   ├── money.ts            # Money formatting + comparison copy
-    │   ├── period.ts           # RecoveryPeriod derived values + normalization
-    │   └── notifications.ts    # expo-notifications scheduling/sync helpers
+    │   └── period.ts           # RecoveryPeriod derived values + normalization
     ├── theme/
     │   └── styles.ts           # Single shared StyleSheet (`styles`)
     ├── screens/                # Tab screens
@@ -51,7 +49,6 @@ spec before changing a feature.
     │   └── ProgressScreen.tsx  # "Progress" tab (list + detail routing)
     ├── components/             # Reusable / sub-screen components
     │   ├── ProgressDetailPage.tsx
-    │   ├── DailyCheckInModal.tsx
     │   ├── OnboardingModal.tsx
     │   └── UndoSnackbar.tsx
     ├── navigation/
@@ -62,13 +59,13 @@ spec before changing a feature.
 ## Architectural conventions
 
 - **Single source of truth for state.** `RootNavigator` owns the `periods` array
-  and all mutations (`addPeriod`, `keepToday`, `resetPeriod`, `deletePeriod`,
+  and all mutations (`addPeriod`, `resetPeriod`, `deletePeriod`,
   `editPeriod`, `setNextMilestone`). Screens are presentational and receive data
   + callbacks via props. Keep mutation logic in `RootNavigator`.
 - **No business logic in JSX files.** Derived values (streaks, saved money,
   health insights) live in `src/utils/period.ts`. Reuse those helpers instead of
   re-deriving inline.
-- **Static Armenian copy lives in `src/data/`.** When adding/editing user-facing
+- **Localized catalog copy lives in `src/data/`.** When adding/editing user-facing
   catalog text, edit data files, not components.
 - **Styling is one shared `StyleSheet`** in `src/theme/styles.ts`, imported as
   `import { styles } from '../theme/styles'`. Style keys are namespaced by screen
@@ -84,11 +81,9 @@ spec before changing a feature.
 | --- | --- |
 | [`data-model.md`](./data-model.md) | `RecoveryPeriod`, persistence, normalization |
 | [`navigation.md`](./navigation.md) | Tabs, app state ownership, global modals |
-| [`home.md`](./home.md) | "Today" screen + inline check-in |
+| [`home.md`](./home.md) | "Today" screen + automatic counters |
 | [`add-period.md`](./add-period.md) | Create-period wizard |
 | [`progress.md`](./progress.md) | Progress list + detail page |
-| [`daily-check-in.md`](./daily-check-in.md) | Check-in modal & streak logic |
-| [`notifications.md`](./notifications.md) | Daily reminder scheduling/sync |
 | [`onboarding.md`](./onboarding.md) | First-run onboarding |
 | [`styling.md`](./styling.md) | Theme / StyleSheet conventions |
 

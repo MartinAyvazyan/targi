@@ -2,7 +2,7 @@
   "expo": {
     "name": "Targi",
     "slug": "targi",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -30,18 +30,13 @@
     },
     "plugins": [
       "@react-native-community/datetimepicker",
-      [
-        "expo-notifications",
-        {
-          "defaultChannel": "daily-check"
-        }
-      ],
       "expo-font"
     ],
     "extra": {
       "eas": {
-        "projectId": "2a77921a-bc80-464e-8e4d-34cc0b54b25c"
+        "projectId": "0c258fcc-65df-4547-be2b-78bf17b26792"
       }
-    }
+    },
+    "owner": "martinayvazyan"
   }
 }

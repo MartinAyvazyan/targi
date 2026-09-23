@@ -39,7 +39,7 @@ Sections:
 6. **Health timeline** — full `getHealthImprovements` list with unlocked state by
    day, plus the "next" upcoming improvement and a medical disclaimer.
 7. **Settings** — inline edit (title + daily cost via `onEdit`), start date,
-   reminder time, daily cost; "Սկսել նորից" (`onReset`) and "Ջնջել" (`onDelete`).
+   daily cost, "Խախտել" / "Record a lapse" (`onReset`), and delete.
 
 Editing: local `isEditing` + draft fields, re-synced via `useEffect` on
 `period.id/title/dailyCost`. `saveEdits` commits trimmed values.
@@ -53,8 +53,8 @@ leave an empty gap above the tab bar.
 ## Key dependencies
 - `src/utils/period.ts` (all derived values + `getType`)
 - `src/utils/money.ts` (`formatMoney`, `getMoneyComparison`)
-- `src/utils/date.ts`, `src/utils/reminders.ts`
+- `src/utils/date.ts`
 
 ## Notes for changes
-- `onReset` here is wired to `RootNavigator.recordSlip` (reset + reassurance).
+- `onReset` here is wired to `RootNavigator.recordSlip` (confirm + reset).
 - Keep streak/money/health math in `utils`.

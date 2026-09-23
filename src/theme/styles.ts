@@ -22,6 +22,27 @@ export const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 16,
   },
+  homeTopRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  languagePickerCompact: {
+    backgroundColor: '#e7e5df',
+    borderRadius: 10,
+    flexDirection: 'row',
+    padding: 3,
+  },
+  languageOptionCompact: {
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+  },
+  languageOptionCompactText: {
+    color: '#6b7280',
+    fontSize: 11,
+    fontWeight: '900',
+  },
   addContent: {
     flex: 1,
     padding: 22,
@@ -1498,6 +1519,30 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     padding: 24,
+  },
+  languagePicker: {
+    alignSelf: 'flex-end',
+    backgroundColor: '#e7e5df',
+    borderRadius: 12,
+    flexDirection: 'row',
+    padding: 4,
+    zIndex: 2,
+  },
+  languageOption: {
+    borderRadius: 9,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+  },
+  languageOptionActive: {
+    backgroundColor: '#0f766e',
+  },
+  languageOptionText: {
+    color: '#4b5563',
+    fontSize: 13,
+    fontWeight: '900',
+  },
+  languageOptionTextActive: {
+    color: '#ffffff',
   },
   onboardingContent: {
     flex: 1,

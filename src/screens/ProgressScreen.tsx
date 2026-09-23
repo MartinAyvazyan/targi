@@ -3,6 +3,7 @@ import { Alert, FlatList, Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ProgressDetailPage } from '../components/ProgressDetailPage';
+import { useLanguage } from '../i18n';
 import { styles } from '../theme/styles';
 import type { RecoveryPeriod } from '../types';
 import { formatMoney } from '../utils/money';
@@ -21,20 +22,21 @@ export function ProgressScreen({
   onReset: (id: string) => void;
   onSetMilestone: (id: string, days: number) => void;
 }) {
+  const { language, t } = useLanguage();
   const [selectedPeriodId, setSelectedPeriodId] = useState<string | undefined>();
   const selectedPeriod = periods.find((period) => period.id === selectedPeriodId);
 
   const confirmDelete = (period: RecoveryPeriod) => {
     Alert.alert(
-      'Ջնջե՞լ ընթացքը',
-      `«${period.title}» ընթացքը ամբողջությամբ կջնջվի:`,
+      t('deleteJourney'),
+      `«${period.title}» ${t('deleteBody')}`,
       [
         {
-          text: 'Չեղարկել',
+          text: t('cancel'),
           style: 'cancel',
         },
         {
-          text: 'Ջնջել',
+          text: t('delete'),
           style: 'destructive',
           onPress: () => {
             setSelectedPeriodId(undefined);
@@ -66,21 +68,21 @@ export function ProgressScreen({
         contentContainerStyle={styles.listContent}
         ListHeaderComponent={
           <View style={styles.listHeader}>
-            <Text style={styles.eyebrow}>Առաջընթաց</Text>
+            <Text style={styles.eyebrow}>{t('progressEyebrow')}</Text>
             <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.62} style={styles.title}>
-              Քո ընթացքները
+              {t('yourJourneys')}
             </Text>
-            <Text style={styles.body}>Սեղմիր քարտին՝ նշաձողերը, առողջական փոփոխությունները եւ խնայված գումարը տեսնելու համար:</Text>
+            <Text style={styles.body}>{t('progressIntro')}</Text>
           </View>
         }
         ListEmptyComponent={
           <View style={styles.emptyState}>
-            <Text style={styles.panelTitle}>Դեռ ընթացք չկա</Text>
-            <Text style={styles.panelText}>Սկսիր փոքրից. այսօր ընտրիր միայն մեկ բան, որից ուզում ես ազատվել:</Text>
+            <Text style={styles.panelTitle}>{t('noJourney')}</Text>
+            <Text style={styles.panelText}>{t('noJourneyBody')}</Text>
           </View>
         }
         renderItem={({ item }) => {
-          const type = getType(item.addictionTypeId);
+          const type = getType(item.addictionTypeId, language);
           const currentDays = getCurrentRunDays(item);
           const milestoneProgress = Math.min(100, Math.round((currentDays / item.currentMilestoneDays) * 100));
           const remainingDays = Math.max(item.currentMilestoneDays - currentDays, 0);
@@ -89,23 +91,23 @@ export function ProgressScreen({
           return (
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel={`${item.title}, ${currentDays} ընթացիկ մաքուր օր`}
+              accessibilityLabel={`${item.title}, ${currentDays} ${t('days')}`}
               onPress={() => setSelectedPeriodId(item.id)}
               style={styles.progressCard}
             >
               <View style={styles.cardHeader}>
                 <View style={styles.cardTitleBlock}>
                   <Text numberOfLines={1} style={styles.cardTitle}>{item.title}</Text>
-                  <Text numberOfLines={1} style={styles.cardSubtitle}>{type.label} / {item.subtype ?? 'Ընդհանուր'}</Text>
+                  <Text numberOfLines={1} style={styles.cardSubtitle}>{type.label} / {item.subtype ?? t('general')}</Text>
                 </View>
               </View>
 
               <View style={styles.cardStreakRow}>
                 <Text style={styles.cardStreakNumber}>{currentDays}</Text>
                 <View style={styles.cardStreakTextBlock}>
-                  <Text style={styles.cardStreakLabel}>ընթացիկ շարք</Text>
+                  <Text style={styles.cardStreakLabel}>{t('currentRun')}</Text>
                   <Text style={styles.cardMilestoneLine}>
-                    {currentDays}/{item.currentMilestoneDays} օր · մնաց {remainingDays}
+                    {currentDays}/{item.currentMilestoneDays} {t('days')} · {t('remaining')} {remainingDays}
                   </Text>
                 </View>
                 {savedMoney > 0 && (

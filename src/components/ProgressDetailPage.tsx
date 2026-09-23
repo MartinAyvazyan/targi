@@ -4,8 +4,9 @@ import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput,
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { styles } from '../theme/styles';
+import { useLanguage } from '../i18n';
 import type { RecoveryPeriod } from '../types';
-import { formatDateHy } from '../utils/date';
+import { formatDate } from '../utils/date';
 import { formatMoney, getMoneyComparison } from '../utils/money';
 import {
   getCurrentRunDays,
@@ -16,7 +17,6 @@ import {
   getTotalCleanDays,
   getType,
 } from '../utils/period';
-import { formatReminderTime } from '../utils/reminders';
 
 export function ProgressDetailPage({
   period,
@@ -33,16 +33,17 @@ export function ProgressDetailPage({
   onReset: (id: string) => void;
   onSetMilestone: (id: string, days: number) => void;
 }) {
+  const { language, t } = useLanguage();
   const [isEditing, setIsEditing] = useState(false);
   const [draftTitle, setDraftTitle] = useState(period.title);
   const [draftDailyCost, setDraftDailyCost] = useState(`${period.dailyCost || ''}`);
-  const type = getType(period.addictionTypeId);
+  const type = getType(period.addictionTypeId, language);
   const currentDays = getCurrentRunDays(period);
   const totalCleanDays = getTotalCleanDays(period);
   const milestoneProgress = Math.min(100, Math.round((currentDays / period.currentMilestoneDays) * 100));
   const isMilestoneComplete = currentDays >= period.currentMilestoneDays;
   const savedMoney = getSavedMoney(period);
-  const improvements = getHealthImprovements(period);
+  const improvements = getHealthImprovements(period, language);
   const nextImprovement = improvements.find((item) => item.day > currentDays);
 
   useEffect(() => {
@@ -84,50 +85,50 @@ export function ProgressDetailPage({
           keyboardShouldPersistTaps="handled"
         >
           <View style={styles.detailHero}>
-            <Text style={styles.detailHeroDays}>🌱 {currentDays} օր</Text>
-            <Text style={styles.detailHeroText}>Ընթացիկ շարք</Text>
+            <Text style={styles.detailHeroDays}>🌱 {currentDays} {t('days')}</Text>
+            <Text style={styles.detailHeroText}>{t('currentRun')}</Text>
           </View>
 
           <View style={styles.detailMetricGrid}>
             <View style={styles.detailMetric}>
               <Text style={styles.metricValue}>{totalCleanDays}</Text>
-              <Text style={styles.metricLabel}>ընդհանուր մաքուր օրեր</Text>
+              <Text style={styles.metricLabel}>{t('totalDays')}</Text>
             </View>
             <View style={styles.detailMetric}>
               <Text style={styles.metricValue}>{period.bestStreak}</Text>
-              <Text style={styles.metricLabel}>ամենաերկար շարք</Text>
+              <Text style={styles.metricLabel}>{t('bestRun')}</Text>
             </View>
             <View style={styles.detailMetric}>
               <Text style={styles.metricValue}>{formatMoney(savedMoney)}</Text>
-              <Text style={styles.metricLabel}>խնայած գումար</Text>
+              <Text style={styles.metricLabel}>{t('savedMoney')}</Text>
             </View>
           </View>
           <View style={styles.moneyInsightBox}>
             <Ionicons name="wallet-outline" size={19} color="#e08a3c" />
-            <Text style={styles.moneyInsightText}>{getMoneyComparison(savedMoney)}</Text>
+            <Text style={styles.moneyInsightText}>{getMoneyComparison(savedMoney, language)}</Text>
           </View>
 
           <View style={styles.detailSection}>
             <View style={styles.detailSectionHeader}>
-              <Text style={styles.detailSectionTitle}>Նշաձող</Text>
+              <Text style={styles.detailSectionTitle}>{t('milestone')}</Text>
               <Text style={styles.detailSectionMeta}>{milestoneProgress}%</Text>
             </View>
             <View style={styles.milestoneTrack}>
               <View style={[styles.milestoneFill, { width: `${milestoneProgress}%` }]} />
             </View>
             <Text style={styles.detailText}>
-              Նպատակ՝ {period.currentMilestoneDays} օր: Մնացել է {Math.max(period.currentMilestoneDays - currentDays, 0)} օր:
+              {t('target')}՝ {period.currentMilestoneDays} {t('days')}. {t('remaining')} {Math.max(period.currentMilestoneDays - currentDays, 0)} {t('days')}.
             </Text>
             {period.completedMilestones.length > 0 && (
-              <Text style={styles.detailText}>Ավարտված՝ {period.completedMilestones.join(', ')} օր</Text>
+              <Text style={styles.detailText}>{t('completed')}՝ {period.completedMilestones.join(', ')} {t('days')}</Text>
             )}
             {isMilestoneComplete && (
               <View style={styles.nextMilestoneBox}>
-                <Text style={styles.nextMilestoneTitle}>Նշաձողը պահված է: Ընտրիր հաջորդը</Text>
+                <Text style={styles.nextMilestoneTitle}>{t('pickNext')}</Text>
                 <View style={styles.nextMilestoneGrid}>
                   {getNextMilestoneOptions(period.currentMilestoneDays).map((days) => (
                     <Pressable key={days} onPress={() => onSetMilestone(period.id, days)} style={styles.nextMilestoneButton}>
-                      <Text style={styles.nextMilestoneButtonText}>{days} օր</Text>
+                      <Text style={styles.nextMilestoneButtonText}>{days} {t('days')}</Text>
                     </Pressable>
                   ))}
                 </View>
@@ -137,12 +138,12 @@ export function ProgressDetailPage({
 
           <View style={styles.detailSection}>
             <View style={styles.detailSectionHeader}>
-              <Text style={styles.detailSectionTitle}>Ինչ է փոխվում մարմնում</Text>
+              <Text style={styles.detailSectionTitle}>{t('changes')}</Text>
               <Ionicons name={getHealthIcon(period.addictionTypeId)} size={20} color="#0f766e" />
             </View>
             {nextImprovement && (
               <View style={styles.nextHealthBox}>
-                <Text style={styles.nextHealthKicker}>Հաջորդը՝ {nextImprovement.day} օր</Text>
+                <Text style={styles.nextHealthKicker}>{t('next')}՝ {nextImprovement.day} {t('days')}</Text>
                 <Text style={styles.nextHealthTitle}>{nextImprovement.title}</Text>
               </View>
             )}
@@ -161,13 +162,13 @@ export function ProgressDetailPage({
               );
             })}
             <Text style={styles.healthDisclaimer}>
-              Սա բժշկական խորհրդատվություն չէ. փոփոխությունները կարող են տարբեր լինել մարդկանց մոտ: Աղբյուրների հիմք՝ հանրային առողջապահական ուղեցույցներ:
+              {t('disclaimer')}
             </Text>
           </View>
 
           <View style={styles.detailSection}>
             <View style={styles.detailSectionHeader}>
-              <Text style={styles.detailSectionTitle}>Կարգավորումներ</Text>
+              <Text style={styles.detailSectionTitle}>{t('settings')}</Text>
               <Pressable
                 onPress={() => {
                   if (isEditing) {
@@ -179,42 +180,41 @@ export function ProgressDetailPage({
                 style={styles.editButton}
               >
                 <Ionicons name={isEditing ? 'checkmark' : 'create-outline'} size={16} color="#0f766e" />
-                <Text style={styles.editButtonText}>{isEditing ? 'Պահել' : 'Խմբագրել'}</Text>
+                <Text style={styles.editButtonText}>{isEditing ? t('save') : t('edit')}</Text>
               </Pressable>
             </View>
             {isEditing && (
               <>
-                <Text style={styles.detailInputLabel}>Անուն</Text>
+                <Text style={styles.detailInputLabel}>{t('name')}</Text>
                 <TextInput
                   value={draftTitle}
                   onChangeText={setDraftTitle}
-                  placeholder="Ընթացքի անուն"
+                  placeholder={t('journeyName')}
                   placeholderTextColor="#8a8f98"
                   style={styles.input}
                 />
-                <Text style={styles.detailInputLabel}>Օրական ծախս</Text>
+                <Text style={styles.detailInputLabel}>{t('dailyCost')}</Text>
                 <TextInput
                   value={draftDailyCost}
                   onChangeText={setDraftDailyCost}
                   keyboardType="numeric"
                   returnKeyType="done"
                   blurOnSubmit
-                  placeholder="Օրինակ՝ 1500 ֏"
+                  placeholder={t('exampleCost')}
                   placeholderTextColor="#8a8f98"
                   style={styles.input}
                 />
               </>
             )}
-            <Text style={styles.detailText}>Սկիզբ՝ {formatDateHy(period.startDate)}</Text>
-            <Text style={styles.detailText}>Հիշեցում՝ ամեն օր {formatReminderTime(period.reminderTime)}</Text>
-            <Text style={styles.detailText}>Օրական ծախս՝ {formatMoney(period.dailyCost || 0)}</Text>
+            <Text style={styles.detailText}>{t('began')}՝ {formatDate(period.startDate, language)}</Text>
+            <Text style={styles.detailText}>{t('dailyCost')}՝ {formatMoney(period.dailyCost || 0)}</Text>
             <View style={styles.cardActions}>
               <Pressable onPress={() => onReset(period.id)} style={styles.resetButton}>
-                <Text style={styles.resetButtonText}>Սկսել նորից</Text>
+                <Text style={styles.resetButtonText}>{t('restart')}</Text>
               </Pressable>
               <Pressable onPress={() => onDelete(period)} style={styles.deleteButton}>
                 <Ionicons name="trash-outline" size={16} color="#be123c" />
-                <Text style={styles.deleteButtonText}>Ջնջել</Text>
+                <Text style={styles.deleteButtonText}>{t('delete')}</Text>
               </Pressable>
             </View>
           </View>

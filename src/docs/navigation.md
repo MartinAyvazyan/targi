@@ -28,20 +28,16 @@ Derived (memoized): `sortedPeriods` (newest `createdAt` first),
 `checkInPeriods`, `visibleCheckInPeriods`.
 
 ## Mutations (keep all here)
-- `addPeriod`, `deletePeriod` (with undo), `keepToday`,
-  `resetPeriod` (with undo), `recordSlip` (reset + reassurance alert),
+- `addPeriod`, `deletePeriod` (with undo),
+  `resetPeriod` (with undo), `recordSlip` (confirmation + reset),
   `editPeriod`, `setNextMilestone`, `completeOnboarding`.
 
 ## Effects
 1. **Load** periods + onboarding flag on mount (then `setLoaded(true)`).
 2. **Persist** `periods` to AsyncStorage whenever they change (after load).
-3. **Notification routing** — open the right check-in when launched/resumed from
-   a notification or when the app becomes active (see `notifications.md`).
-4. **Notification sync** — reconcile scheduled OS notifications with current
-   periods (see `notifications.md`).
+3. **Language-aware navigation** — tab labels update from the persisted language context.
 
 ## Global overlays (rendered above tabs)
-- `DailyCheckInModal` — daily check-in (see `daily-check-in.md`)
 - `UndoSnackbar` — bottom snackbar, positioned `88 + insets.bottom`
 - `OnboardingModal` — first-run flow (see `onboarding.md`)
 

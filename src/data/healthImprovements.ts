@@ -47,3 +47,53 @@ export const healthImprovementTexts: Record<string, { day: number; title: string
     { day: 30, title: 'Ապրելակերպի փոփոխություն', body: 'Մեկ ամիսը սովորությունը դարձնում է ոչ թե փորձ, այլ նոր ուղղություն:' },
   ],
 };
+
+export const healthImprovementTextsEn: typeof healthImprovementTexts = {
+  smoking: [
+    { day: 1, title: 'Oxygen levels improve', body: 'Carbon monoxide begins to fall and breathing may feel a little easier.' },
+    { day: 2, title: 'Taste and smell return', body: 'Food and everyday scents may begin to feel clearer.' },
+    { day: 3, title: 'Airways begin to clear', body: 'Your body starts clearing mucus; coughing can briefly increase.' },
+    { day: 7, title: 'Cravings become shorter', body: 'Hard moments often become easier to recognize and plan for.' },
+    { day: 14, title: 'Circulation improves', body: 'Walking, stairs, and exercise may start to feel easier.' },
+    { day: 30, title: 'Lung function improves', body: 'Breathing capacity and energy may gradually improve.' },
+    { day: 90, title: 'A new rhythm settles in', body: 'Cardiovascular risk keeps falling and the old routine feels less automatic.' },
+  ],
+  alcohol: [
+    { day: 1, title: 'Sleep begins to reset', body: 'Hydration and rest are especially important as alcohol leaves the body.' },
+    { day: 2, title: 'The liver gets a break', body: 'The body continues clearing alcohol and its by-products.' },
+    { day: 3, title: 'Thinking may feel clearer', body: 'Focus and mood can begin to feel more stable.' },
+    { day: 7, title: 'Energy may feel steadier', body: 'Mornings and blood-sugar swings may become easier.' },
+    { day: 10, title: 'Hydration may improve', body: 'Skin and the body may feel less puffy and more refreshed.' },
+    { day: 30, title: 'Recovery has more time', body: 'A sustained break gives the liver and body meaningful recovery time.' },
+    { day: 90, title: 'A new social rhythm', body: 'Relaxing and socializing without alcohol can feel more natural.' },
+  ],
+  drugs: [
+    { day: 1, title: 'Safety comes first', body: 'Withdrawal can be serious. Contact a medical professional for severe symptoms.' },
+    { day: 2, title: 'The nervous system adjusts', body: 'Sleep, appetite, and mood may fluctuate during recovery.' },
+    { day: 4, title: 'Triggers become clearer', body: 'People, places, and feelings connected to use may be easier to notice.' },
+    { day: 7, title: 'Routine starts to help', body: 'Repeated safe actions can reduce impulsive decisions.' },
+    { day: 14, title: 'Strength starts returning', body: 'Food, water, and sleep can have a stronger effect on wellbeing.' },
+    { day: 30, title: 'A month of evidence', body: 'You have proof that hard urges can pass without returning to the old action.' },
+  ],
+  gambling: [
+    { day: 1, title: 'Control starts returning', body: 'One day without a bet already interrupts the automatic cycle.' },
+    { day: 3, title: 'Financial breathing room', body: 'Money stops flowing in the old direction and decisions can slow down.' },
+    { day: 7, title: 'Triggers become visible', body: 'Stress, boredom, and thoughts of quick money are easier to identify.' },
+    { day: 14, title: 'Trust starts rebuilding', body: 'Not gambling can strengthen trust in your own decisions.' },
+    { day: 30, title: 'A new financial rhythm', body: 'Saved money and predictable days can change how life feels.' },
+  ],
+  social: [
+    { day: 1, title: 'Attention returns', body: 'You may notice how often your hand used to reach for the phone.' },
+    { day: 2, title: 'Less mental noise', body: 'Fewer alerts and comparisons can help your nervous system settle.' },
+    { day: 7, title: 'Time becomes visible', body: 'Freed-up hours can return to sleep, walks, family, or work.' },
+    { day: 14, title: 'Reward patterns rebalance', body: 'Ordinary activities may begin to feel enjoyable again.' },
+    { day: 30, title: 'Focus gets stronger', body: 'Long tasks and deeper conversations may feel easier.' },
+  ],
+  custom: [
+    { day: 1, title: 'The cycle is interrupted', body: 'The first day proves an automatic action can be paused.' },
+    { day: 3, title: 'Triggers become clearer', body: 'You begin to see when and why the old habit calls.' },
+    { day: 7, title: 'A new rhythm', body: 'One week starts building new confidence.' },
+    { day: 14, title: 'The old habit gets quieter', body: 'Repeated choices teach your mind and body another path.' },
+    { day: 30, title: 'A lifestyle change', body: 'A month turns the change from an experiment into a direction.' },
+  ],
+};

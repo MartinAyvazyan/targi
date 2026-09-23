@@ -30,8 +30,7 @@ export type RecoveryPeriod = {
   bestStreak: number;
   currentStreak: number;
   totalCleanDays: number;
-  reminderTime: string;
-  notificationId?: string;
+  cleanDaysBeforeCurrentRun?: number;
   relapses: number;
   dailyCost: number;
   currentMilestoneDays: number;

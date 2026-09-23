@@ -32,6 +32,14 @@ export function formatDateHy(dateKey: string) {
   }).format(parseDateKey(dateKey));
 }
 
+export function formatDate(dateKey: string, language: 'hy' | 'en') {
+  return new Intl.DateTimeFormat(language === 'en' ? 'en-US' : 'hy-AM', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(parseDateKey(dateKey));
+}
+
 export function dayOfYear(date: Date) {
   const start = new Date(date.getFullYear(), 0, 0);
   return Math.floor((date.getTime() - start.getTime()) / 86400000);

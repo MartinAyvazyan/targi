@@ -20,12 +20,10 @@ One tracked recovery effort. Stored as an array under AsyncStorage key
 | `originalStartDate` | date-key | First-ever start (kept across resets) |
 | `startDate` | date-key | Current run start (changes on reset/slip) |
 | `createdAt` | ISO string | Creation timestamp; used for sort order |
-| `lastCheckInDate` | date-key? | Last day the user checked in |
 | `bestStreak` | number | Longest run ever (days) |
-| `currentStreak` | number | Current consecutive clean days |
-| `totalCleanDays` | number | Cumulative clean days across runs |
-| `reminderTime` | `HH:mm` | Daily reminder time |
-| `notificationId` | string? | expo-notifications scheduled id |
+| `currentStreak` | number | Legacy cached value; current days are derived from dates |
+| `totalCleanDays` | number | Legacy cached cumulative days |
+| `cleanDaysBeforeCurrentRun` | number? | Completed days before the current run |
 | `relapses` | number | Count of resets/slips |
 | `dailyCost` | number | Optional money saved per clean day (֏) |
 | `currentMilestoneDays` | number | Active milestone target (days) |
@@ -42,15 +40,18 @@ Stored as `YYYY-MM-DD` "date keys" (local time), never `Date` objects.
 Use helpers in `src/utils/date.ts`:
 - `today()`, `toDateKey(date)`, `parseDateKey(key)`
 - `addDays(key, n)`, `daysBetween(start, end)`
-- `formatDateHy(key)` (Armenian long date), `dayOfYear(date)`
+- `formatDate(key, language)`, `formatDateHy(key)`, `dayOfYear(date)`
 
 ## Derived values (`src/utils/period.ts`)
 Never recompute these inline — reuse:
 - `getCurrentRunDays`, `getTotalCleanDays`, `getSavedMoney`
 - `getHealthImprovements`, `getCurrentHealthInsight`, `getMilestonePreview`
 - `getHealthIcon`, `getNextMilestoneOptions`
-- `getType(typeId)` — resolve an `AddictionType`
-- `isDueForCheckIn(period)` — true if not checked in today and reminder time passed
+- `getType(typeId, language)` — resolve a localized `AddictionType`
+
+Current run days are calculated automatically from `startDate` and today's date.
+Recording a lapse moves the completed current run into `cleanDaysBeforeCurrentRun`
+and resets `startDate`; there is no daily confirmation flow.
 
 ## Normalization & migrations
 `normalizePeriod` backfills missing/older fields when loading from storage,
