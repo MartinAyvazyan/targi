@@ -17,7 +17,7 @@ spec before changing a feature.
 
 ## Tech stack
 
-- **Expo** `~54` / **React Native** `0.81` / **React** `19`
+- **Expo** `^57` / **React Native** `0.86` / **React** `19.2`
 - **@react-navigation/bottom-tabs** for navigation (3 tabs: Home, Add, Progress)
 - **@react-native-async-storage/async-storage** for persistence
 - **@react-native-community/datetimepicker** for date pickers
