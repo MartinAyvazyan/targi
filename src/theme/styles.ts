@@ -1545,8 +1545,14 @@ export const styles = StyleSheet.create({
     color: '#ffffff',
   },
   onboardingContent: {
+    justifyContent: 'center',
+  },
+  onboardingCarousel: {
     flex: 1,
     justifyContent: 'center',
+  },
+  onboardingPager: {
+    flexGrow: 0,
   },
   onboardingIcon: {
     alignItems: 'center',
@@ -1573,7 +1579,7 @@ export const styles = StyleSheet.create({
   onboardingDots: {
     flexDirection: 'row',
     gap: 8,
-    marginTop: 30,
+    marginTop: 12,
   },
   onboardingDot: {
     backgroundColor: '#d1d5db',
