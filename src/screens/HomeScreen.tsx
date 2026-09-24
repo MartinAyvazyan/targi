@@ -63,7 +63,7 @@ export function HomeScreen({ navigation, onSlip, periods }: {
           <View key={period.id} style={styles.homeCheckPanel}>
             <View style={styles.summaryHeader}>
               <View style={styles.cardTitleBlock}><Text style={styles.homeCheckName}>{period.title}</Text><Text style={styles.homeCheckMeta}>{getCurrentRunDays(period)} {t('days')} · {t('currentRun')}</Text></View>
-              <Pressable onPress={() => onSlip(period.id)} style={styles.homeSlipButton}><Text style={styles.homeSlipButtonText}>{t('recordLapse')}</Text></Pressable>
+              <Pressable hitSlop={8} onPress={() => onSlip(period.id)} style={styles.homeSlipButton}><Text numberOfLines={1} style={styles.homeSlipButtonText}>{t('recordLapse')}</Text></Pressable>
             </View>
           </View>
         ))}
