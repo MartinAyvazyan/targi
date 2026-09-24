@@ -16,6 +16,7 @@ import {
   getSavedMoney,
   getTotalCleanDays,
   getType,
+  supportsSpendingTracking,
 } from '../utils/period';
 
 export function ProgressDetailPage({
@@ -43,6 +44,7 @@ export function ProgressDetailPage({
   const milestoneProgress = Math.min(100, Math.round((currentDays / period.currentMilestoneDays) * 100));
   const isMilestoneComplete = currentDays >= period.currentMilestoneDays;
   const savedMoney = getSavedMoney(period);
+  const tracksSpending = supportsSpendingTracking(period.addictionTypeId);
   const improvements = getHealthImprovements(period, language);
   const nextImprovement = improvements.find((item) => item.day > currentDays);
 
@@ -98,15 +100,19 @@ export function ProgressDetailPage({
               <Text style={styles.metricValue}>{period.bestStreak}</Text>
               <Text style={styles.metricLabel}>{t('bestRun')}</Text>
             </View>
-            <View style={styles.detailMetric}>
-              <Text style={styles.metricValue}>{formatMoney(savedMoney)}</Text>
-              <Text style={styles.metricLabel}>{t('savedMoney')}</Text>
+            {tracksSpending && (
+              <View style={styles.detailMetric}>
+                <Text style={styles.metricValue}>{formatMoney(savedMoney)}</Text>
+                <Text style={styles.metricLabel}>{t('savedMoney')}</Text>
+              </View>
+            )}
+          </View>
+          {tracksSpending && (
+            <View style={styles.moneyInsightBox}>
+              <Ionicons name="wallet-outline" size={19} color="#e08a3c" />
+              <Text style={styles.moneyInsightText}>{getMoneyComparison(savedMoney, language)}</Text>
             </View>
-          </View>
-          <View style={styles.moneyInsightBox}>
-            <Ionicons name="wallet-outline" size={19} color="#e08a3c" />
-            <Text style={styles.moneyInsightText}>{getMoneyComparison(savedMoney, language)}</Text>
-          </View>
+          )}
 
           <View style={styles.detailSection}>
             <View style={styles.detailSectionHeader}>
@@ -193,21 +199,25 @@ export function ProgressDetailPage({
                   placeholderTextColor="#8a8f98"
                   style={styles.input}
                 />
-                <Text style={styles.detailInputLabel}>{t('dailyCost')}</Text>
-                <TextInput
-                  value={draftDailyCost}
-                  onChangeText={setDraftDailyCost}
-                  keyboardType="numeric"
-                  returnKeyType="done"
-                  blurOnSubmit
-                  placeholder={t('exampleCost')}
-                  placeholderTextColor="#8a8f98"
-                  style={styles.input}
-                />
+                {tracksSpending && (
+                  <>
+                    <Text style={styles.detailInputLabel}>{t('dailyCost')}</Text>
+                    <TextInput
+                      value={draftDailyCost}
+                      onChangeText={setDraftDailyCost}
+                      keyboardType="numeric"
+                      returnKeyType="done"
+                      blurOnSubmit
+                      placeholder={t('exampleCost')}
+                      placeholderTextColor="#8a8f98"
+                      style={styles.input}
+                    />
+                  </>
+                )}
               </>
             )}
             <Text style={styles.detailText}>{t('began')}՝ {formatDate(period.startDate, language)}</Text>
-            <Text style={styles.detailText}>{t('dailyCost')}՝ {formatMoney(period.dailyCost || 0)}</Text>
+            {tracksSpending && <Text style={styles.detailText}>{t('dailyCost')}՝ {formatMoney(period.dailyCost || 0)}</Text>}
             <View style={styles.cardActions}>
               <Pressable onPress={() => onReset(period.id)} style={styles.resetButton}>
                 <Text style={styles.resetButtonText}>{t('restart')}</Text>

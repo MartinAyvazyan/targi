@@ -13,6 +13,10 @@ export function getSavedMoney(period: RecoveryPeriod) {
   return getCurrentRunDays(period) * (period.dailyCost || 0);
 }
 
+export function supportsSpendingTracking(typeId: string) {
+  return typeId !== 'social';
+}
+
 export function getTotalCleanDays(period: RecoveryPeriod) {
   return (period.cleanDaysBeforeCurrentRun ?? 0) + getCurrentRunDays(period);
 }

@@ -22,7 +22,7 @@ import { useLanguage } from '../i18n';
 import { styles } from '../theme/styles';
 import type { AddictionType, RecoveryPeriod, RootTabParamList } from '../types';
 import { daysBetween, formatDate, parseDateKey, toDateKey, today } from '../utils/date';
-import { getMilestonePreview, getType } from '../utils/period';
+import { getMilestonePreview, getType, supportsSpendingTracking } from '../utils/period';
 
 export function AddScreen({
   navigation,
@@ -51,6 +51,7 @@ export function AddScreen({
   const [dailyCost, setDailyCost] = useState('');
 
   const selectedType = getType(selectedTypeId, language);
+  const tracksSpending = supportsSpendingTracking(selectedTypeId);
   const otherLabel = language === 'en' ? 'Other' : 'Այլ';
   const getEffectiveSubtypes = (subtypes = selectedSubtypes, customValues = customSubtypes) => [
     ...subtypes.filter((subtype) => subtype !== otherLabel),
@@ -89,6 +90,7 @@ export function AddScreen({
     setCustomSubtypeInput('');
     setCustomSubtypes([]);
     setTitle(language === 'en' ? `No ${type.label}` : `Առանց ${type.label}-ի`);
+    if (!supportsSpendingTracking(type.id)) setDailyCost('');
   };
 
   const toggleSubtype = (subtype: string) => {
@@ -180,7 +182,7 @@ export function AddScreen({
       totalCleanDays: initialStreak,
       cleanDaysBeforeCurrentRun: 0,
       relapses: 0,
-      dailyCost: Number(dailyCost.replace(',', '.')) || 0,
+      dailyCost: tracksSpending ? Number(dailyCost.replace(',', '.')) || 0 : 0,
       currentMilestoneDays: milestoneDays,
       completedMilestones: [],
     };
@@ -355,18 +357,22 @@ export function AddScreen({
                 onFocus={scrollFocusedInputIntoView}
               />
 
-              <Text style={[styles.stepLabel, isCompact && styles.stepLabelCompact]}>{t('dailyCostOptional')}</Text>
-              <TextInput
-                value={dailyCost}
-                onChangeText={setDailyCost}
-                keyboardType="numeric"
-                returnKeyType="done"
-                blurOnSubmit
-                placeholder={t('exampleCost')}
-                placeholderTextColor="#8a8f98"
-                style={styles.input}
-                onFocus={scrollFocusedInputIntoView}
-              />
+              {tracksSpending && (
+                <>
+                  <Text style={[styles.stepLabel, isCompact && styles.stepLabelCompact]}>{t('dailyCostOptional')}</Text>
+                  <TextInput
+                    value={dailyCost}
+                    onChangeText={setDailyCost}
+                    keyboardType="numeric"
+                    returnKeyType="done"
+                    blurOnSubmit
+                    placeholder={t('exampleCost')}
+                    placeholderTextColor="#8a8f98"
+                    style={styles.input}
+                    onFocus={scrollFocusedInputIntoView}
+                  />
+                </>
+              )}
             </View>
 
               <Text style={[styles.stepLabel, isCompact && styles.stepLabelCompact]}>{t('subtypesOptional')}</Text>

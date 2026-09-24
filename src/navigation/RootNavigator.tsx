@@ -240,7 +240,7 @@ export function RootNavigator() {
         </Tab.Screen>
       </Tab.Navigator>
 
-      <UndoSnackbar undo={undo} bottom={88 + insets.bottom} />
+      <UndoSnackbar undo={undo} bottom={60 + insets.bottom} onDismiss={clearUndo} />
       <OnboardingModal visible={showOnboarding} onComplete={completeOnboarding} />
     </NavigationContainer>
   );

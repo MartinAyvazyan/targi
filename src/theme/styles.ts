@@ -1007,6 +1007,14 @@ export const styles = StyleSheet.create({
     gap: 12,
     justifyContent: 'space-between',
   },
+  progressDeleteButton: {
+    alignItems: 'center',
+    backgroundColor: '#fff1f2',
+    borderRadius: 8,
+    height: 34,
+    justifyContent: 'center',
+    width: 34,
+  },
   cardTitleBlock: {
     flex: 1,
     minWidth: 0,
@@ -1633,6 +1641,12 @@ export const styles = StyleSheet.create({
     color: '#111827',
     fontSize: 13,
     fontWeight: '900',
+  },
+  undoCloseButton: {
+    alignItems: 'center',
+    height: 32,
+    justifyContent: 'center',
+    width: 24,
   },
   tabBar: {
     backgroundColor: '#ffffff',

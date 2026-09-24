@@ -38,7 +38,8 @@ Derived (memoized): `sortedPeriods` (newest `createdAt` first),
 3. **Language-aware navigation** — tab labels update from the persisted language context.
 
 ## Global overlays (rendered above tabs)
-- `UndoSnackbar` — bottom snackbar, positioned `88 + insets.bottom`
+- `UndoSnackbar` — dismissible bottom snackbar with undo and close actions,
+  positioned `60 + insets.bottom`
 - `OnboardingModal` — first-run flow (see `onboarding.md`)
 
 ## Adding a new screen/tab

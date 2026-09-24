@@ -26,7 +26,8 @@ The "Սկսել" (Start) tab: a 2-step wizard to create a new `RecoveryPeriod`.
 - **Reminder time** — `HH:mm`; native time picker / web `<input type="time">`.
 - **Name** — defaults to `Առանց <type/subtypes>-ի` and auto-updates with subtype
   selection until the user edits it.
-- **Daily cost** — optional number (֏), used for saved-money math.
+- **Daily cost** — optional number (֏), used for saved-money math and omitted for
+  social-media journeys.
 - **Subtypes** — multi-select chips; selecting `Այլ` ("Other") reveals a custom
   subtype input (`addCustomSubtype` / `removeCustomSubtype`).
 - **Safety note** — shown for `alcohol` / `drugs`.

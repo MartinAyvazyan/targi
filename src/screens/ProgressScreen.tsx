@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { Alert, FlatList, Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { ProgressDetailPage } from '../components/ProgressDetailPage';
 import { useLanguage } from '../i18n';
 import { styles } from '../theme/styles';
 import type { RecoveryPeriod } from '../types';
 import { formatMoney } from '../utils/money';
-import { getCurrentRunDays, getSavedMoney, getType } from '../utils/period';
+import { getCurrentRunDays, getSavedMoney, getType, supportsSpendingTracking } from '../utils/period';
 
 export function ProgressScreen({
   onDelete,
@@ -85,8 +86,10 @@ export function ProgressScreen({
           const type = getType(item.addictionTypeId, language);
           const currentDays = getCurrentRunDays(item);
           const milestoneProgress = Math.min(100, Math.round((currentDays / item.currentMilestoneDays) * 100));
+          const milestoneDaysCompleted = Math.min(currentDays, item.currentMilestoneDays);
           const remainingDays = Math.max(item.currentMilestoneDays - currentDays, 0);
           const savedMoney = getSavedMoney(item);
+          const tracksSpending = supportsSpendingTracking(item.addictionTypeId);
 
           return (
             <Pressable
@@ -100,6 +103,17 @@ export function ProgressScreen({
                   <Text numberOfLines={1} style={styles.cardTitle}>{item.title}</Text>
                   <Text numberOfLines={1} style={styles.cardSubtitle}>{type.label} / {item.subtype ?? t('general')}</Text>
                 </View>
+                <Pressable
+                  accessibilityLabel={t('delete')}
+                  hitSlop={8}
+                  onPress={(event) => {
+                    event.stopPropagation();
+                    confirmDelete(item);
+                  }}
+                  style={styles.progressDeleteButton}
+                >
+                  <Ionicons name="trash-outline" size={17} color="#be123c" />
+                </Pressable>
               </View>
 
               <View style={styles.cardStreakRow}>
@@ -107,10 +121,10 @@ export function ProgressScreen({
                 <View style={styles.cardStreakTextBlock}>
                   <Text style={styles.cardStreakLabel}>{t('currentRun')}</Text>
                   <Text style={styles.cardMilestoneLine}>
-                    {currentDays}/{item.currentMilestoneDays} {t('days')} · {t('remaining')} {remainingDays}
+                    {milestoneDaysCompleted}/{item.currentMilestoneDays} {t('days')} · {remainingDays === 0 ? t('completed') : `${t('remaining')} ${remainingDays}`}
                   </Text>
                 </View>
-                {savedMoney > 0 && (
+                {tracksSpending && savedMoney > 0 && (
                   <Text style={styles.moneyChip}>{formatMoney(savedMoney)}</Text>
                 )}
               </View>

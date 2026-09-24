@@ -21,8 +21,9 @@ Props:
 ```
 - Local `selectedPeriodId` decides list vs detail. If a period is selected it
   renders `ProgressDetailPage`, otherwise a `FlatList` of cards.
-- Each card shows title, type/subtype, current streak, milestone progress bar,
-  remaining days, and saved-money chip.
+- Each card shows title, type/subtype, current streak, capped milestone progress
+  (for example `7/7`, never `31/7`), remaining/completed state, an inline delete
+  action, and a saved-money chip when spending tracking applies.
 - Empty state prompts the user to start small.
 - `confirmDelete` shows a destructive `Alert` before calling `onDelete`.
 
@@ -32,8 +33,8 @@ Props: `period`, `onBack`, `onDelete(period)`, `onEdit`, `onReset`, `onSetMilest
 Sections:
 1. **Header** — back button + type/subtype + title.
 2. **Hero** — current streak in days.
-3. **Metric grid** — total clean days, best streak, saved money.
-4. **Money insight** — `getMoneyComparison(savedMoney)`.
+3. **Metric grid** — total clean days, best streak, and saved money when applicable.
+4. **Money insight** — `getMoneyComparison(savedMoney)`; hidden for social media.
 5. **Milestone** — progress bar + remaining days; when complete, offers next
    milestone options (`getNextMilestoneOptions` → `onSetMilestone`).
 6. **Health timeline** — full `getHealthImprovements` list with unlocked state by
