@@ -16,6 +16,7 @@ export function OnboardingModal({ visible, onComplete }: { visible: boolean; onC
   const pageHeight = Math.min(340, Math.max(260, height - topPadding - bottomPadding - 220));
   const { language, setLanguage, t } = useLanguage();
   const listRef = useRef<FlatList>(null);
+  const completingRef = useRef(false);
   const [step, setStep] = useState(0);
   const slides = [
     { icon: 'leaf-outline' as IoniconName, title: t('onboarding1Title'), body: t('onboarding1Body') },
@@ -24,13 +25,26 @@ export function OnboardingModal({ visible, onComplete }: { visible: boolean; onC
   ];
   const isLast = step === slides.length - 1;
 
+  const finishOnboarding = () => {
+    if (completingRef.current) return;
+    completingRef.current = true;
+    onComplete();
+  };
+
   const goTo = (nextStep: number) => {
     setStep(nextStep);
     listRef.current?.scrollToIndex({ animated: true, index: nextStep });
   };
 
   const handleScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    setStep(Math.round(event.nativeEvent.contentOffset.x / pageWidth));
+    const nextStep = Math.round(event.nativeEvent.contentOffset.x / pageWidth);
+
+    if (nextStep >= slides.length) {
+      finishOnboarding();
+      return;
+    }
+
+    setStep(nextStep);
   };
 
   return (
@@ -52,6 +66,7 @@ export function OnboardingModal({ visible, onComplete }: { visible: boolean; onC
             showsHorizontalScrollIndicator={false}
             style={[styles.onboardingPager, { height: pageHeight }]}
             keyExtractor={(item) => item.title}
+            ListFooterComponent={<View style={{ height: pageHeight, width: pageWidth }} />}
             getItemLayout={(_, index) => ({ index, length: pageWidth, offset: pageWidth * index })}
             onMomentumScrollEnd={handleScrollEnd}
             renderItem={({ item }) => (
@@ -68,7 +83,7 @@ export function OnboardingModal({ visible, onComplete }: { visible: boolean; onC
         </View>
         <View style={styles.onboardingActions}>
           {step > 0 && <Pressable onPress={() => goTo(step - 1)} style={styles.backButton}><Text style={styles.backButtonText}>{t('back')}</Text></Pressable>}
-          <Pressable onPress={() => (isLast ? onComplete() : goTo(step + 1))} style={step > 0 ? styles.nextButton : styles.nextButtonFull}>
+          <Pressable onPress={() => (isLast ? finishOnboarding() : goTo(step + 1))} style={step > 0 ? styles.nextButton : styles.nextButtonFull}>
             <Text style={styles.nextButtonText}>{isLast ? t('letsStart') : t('continue')}</Text>
           </Pressable>
         </View>

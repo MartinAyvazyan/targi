@@ -963,9 +963,9 @@ export const styles = StyleSheet.create({
     backgroundColor: '#111827',
     borderRadius: 8,
     justifyContent: 'center',
-    minHeight: 52,
-    paddingHorizontal: 18,
-    paddingVertical: 13,
+    minHeight: 50,
+    paddingHorizontal: 14,
+    paddingVertical: 14,
     width: '100%',
   },
   nextButtonText: {
