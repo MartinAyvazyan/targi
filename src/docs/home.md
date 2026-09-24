@@ -2,7 +2,8 @@
 
 `src/screens/HomeScreen.tsx` is the calm daily landing screen. It provides the
 Armenian/English picker, a start CTA, automatic day totals for each journey, a
-localized health insight, a short practical support message, and emergency help.
+localized health insight and emergency help. The rotating “useful thought” section
+is intentionally hidden for now.
 
 Each active journey has one manual action: `Record a lapse` / `Խախտել`. The action
 is intentionally compact, with an expanded invisible hit area so it remains easy

@@ -3,11 +3,9 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { Pressable, ScrollView, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { getMotivationTexts } from '../data/motivation';
 import { useLanguage } from '../i18n';
 import { styles } from '../theme/styles';
 import type { RecoveryPeriod, RootTabParamList } from '../types';
-import { dayOfYear } from '../utils/date';
 import { getCurrentHealthInsight, getCurrentRunDays } from '../utils/period';
 
 export function HomeScreen({ navigation, onSlip, periods }: {
@@ -22,7 +20,6 @@ export function HomeScreen({ navigation, onSlip, periods }: {
   const longestRun = periods.reduce((max, period) => Math.max(max, getCurrentRunDays(period)), 0);
   const leadPeriod = periods.slice().sort((a, b) => getCurrentRunDays(b) - getCurrentRunDays(a))[0];
   const healthInsight = leadPeriod ? getCurrentHealthInsight(leadPeriod, language) : undefined;
-  const dailyMessage = getMotivationTexts(language)[dayOfYear(new Date()) % getMotivationTexts(language).length];
 
   return (
     <SafeAreaView edges={['top', 'left', 'right']} style={styles.screen}>
@@ -69,7 +66,6 @@ export function HomeScreen({ navigation, onSlip, periods }: {
         ))}
 
         {healthInsight && <View style={styles.healthInsightCard}><View style={styles.healthInsightIcon}><Ionicons name="pulse-outline" size={21} color="#0f766e" /></View><View style={styles.cardTitleBlock}><Text style={styles.healthInsightKicker}>{t('bodyChange')}</Text><Text style={styles.healthInsightTitle}>{healthInsight.title}</Text><Text style={styles.healthInsightText}>{healthInsight.body}</Text></View></View>}
-        <View style={styles.notePanel}><Text style={styles.panelTitle}>{t('usefulThought')}</Text><Text style={styles.panelText}>{dailyMessage}</Text></View>
         <View style={styles.helpPanel}><View style={styles.healthInsightIcon}><Ionicons name="heart-circle-outline" size={22} color="#0f766e" /></View><View style={styles.cardTitleBlock}><Text style={styles.panelTitle}>{t('help')}</Text><Text style={styles.panelText}>{t('helpText')}</Text></View></View>
       </ScrollView>
     </SafeAreaView>
