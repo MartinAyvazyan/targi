@@ -1518,7 +1518,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#f6f4ee',
     flex: 1,
     justifyContent: 'space-between',
-    padding: 24,
+    paddingHorizontal: 24,
   },
   languagePicker: {
     alignSelf: 'flex-end',

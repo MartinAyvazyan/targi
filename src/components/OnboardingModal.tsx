@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRef, useState } from 'react';
 import { FlatList, Modal, NativeScrollEvent, NativeSyntheticEvent, Pressable, Text, useWindowDimensions, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLanguage } from '../i18n';
 import { styles } from '../theme/styles';
@@ -9,8 +9,11 @@ import type { IoniconName } from '../types';
 
 export function OnboardingModal({ visible, onComplete }: { visible: boolean; onComplete: () => void }) {
   const { height, width } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
   const pageWidth = Math.max(width - 48, 0);
-  const pageHeight = Math.min(360, Math.max(280, height - 280));
+  const topPadding = Math.max(insets.top + 12, 64);
+  const bottomPadding = Math.max(insets.bottom + 12, 24);
+  const pageHeight = Math.min(340, Math.max(260, height - topPadding - bottomPadding - 220));
   const { language, setLanguage, t } = useLanguage();
   const listRef = useRef<FlatList>(null);
   const [step, setStep] = useState(0);
@@ -31,8 +34,8 @@ export function OnboardingModal({ visible, onComplete }: { visible: boolean; onC
   };
 
   return (
-    <Modal animationType="fade" visible={visible}>
-      <SafeAreaView style={styles.onboardingScreen}>
+    <Modal animationType="fade" presentationStyle="fullScreen" visible={visible}>
+      <View style={[styles.onboardingScreen, { paddingBottom: bottomPadding, paddingTop: topPadding }]}>
         <View style={styles.languagePicker}>
           {(['hy', 'en'] as const).map((item) => (
             <Pressable key={item} onPress={() => setLanguage(item)} style={[styles.languageOption, language === item && styles.languageOptionActive]}>
@@ -69,7 +72,7 @@ export function OnboardingModal({ visible, onComplete }: { visible: boolean; onC
             <Text style={styles.nextButtonText}>{isLast ? t('letsStart') : t('continue')}</Text>
           </Pressable>
         </View>
-      </SafeAreaView>
+      </View>
     </Modal>
   );
 }
