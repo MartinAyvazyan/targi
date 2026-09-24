@@ -1298,6 +1298,11 @@ export const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '900',
   },
+  timelineHeaderMeta: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 7,
+  },
   detailText: {
     color: '#4b5563',
     fontSize: 14,
@@ -1384,6 +1389,13 @@ export const styles = StyleSheet.create({
     color: '#111827',
     fontSize: 15,
     fontWeight: '900',
+  },
+  nextHealthBody: {
+    color: '#4b5563',
+    fontSize: 13,
+    fontWeight: '700',
+    lineHeight: 19,
+    marginTop: 5,
   },
   healthItem: {
     alignItems: 'flex-start',

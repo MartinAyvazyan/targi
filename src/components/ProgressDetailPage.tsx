@@ -46,6 +46,7 @@ export function ProgressDetailPage({
   const savedMoney = getSavedMoney(period);
   const tracksSpending = supportsSpendingTracking(period.addictionTypeId);
   const improvements = getHealthImprovements(period, language);
+  const reachedImprovements = improvements.filter((item) => item.day <= currentDays);
   const nextImprovement = improvements.find((item) => item.day > currentDays);
 
   useEffect(() => {
@@ -145,12 +146,22 @@ export function ProgressDetailPage({
           <View style={styles.detailSection}>
             <View style={styles.detailSectionHeader}>
               <Text style={styles.detailSectionTitle}>{t('changes')}</Text>
-              <Ionicons name={getHealthIcon(period.addictionTypeId)} size={20} color="#0f766e" />
+              <View style={styles.timelineHeaderMeta}>
+                <Text style={styles.detailSectionMeta}>{reachedImprovements.length}/{improvements.length}</Text>
+                <Ionicons name={getHealthIcon(period.addictionTypeId)} size={20} color="#0f766e" />
+              </View>
             </View>
             {nextImprovement && (
               <View style={styles.nextHealthBox}>
-                <Text style={styles.nextHealthKicker}>{t('next')}՝ {nextImprovement.day} {t('days')}</Text>
+                <Text style={styles.nextHealthKicker}>{t('next')} · {nextImprovement.day - currentDays} {t('days')}</Text>
                 <Text style={styles.nextHealthTitle}>{nextImprovement.title}</Text>
+                <Text style={styles.nextHealthBody}>{nextImprovement.body}</Text>
+              </View>
+            )}
+            {!nextImprovement && (
+              <View style={styles.nextHealthBox}>
+                <Text style={styles.nextHealthTitle}>{t('yearTimelineComplete')}</Text>
+                <Text style={styles.nextHealthBody}>{t('yearTimelineBody')}</Text>
               </View>
             )}
             {improvements.map((item) => {

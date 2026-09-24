@@ -37,8 +37,9 @@ Sections:
 4. **Money insight** — `getMoneyComparison(savedMoney)`; hidden for social media.
 5. **Milestone** — progress bar + remaining days; when complete, offers next
    milestone options (`getNextMilestoneOptions` → `onSetMilestone`).
-6. **Health timeline** — full `getHealthImprovements` list with unlocked state by
-   day, plus the "next" upcoming improvement and a medical disclaimer.
+6. **Change timeline** — type-specific milestones through day 365, with live
+   reached/total progress, days until the next stage, deeper next-stage context,
+   unlocked state by day, a post-year state, and a cautious medical disclaimer.
 7. **Settings** — inline edit (title + daily cost via `onEdit`), start date,
    daily cost, "Խախտել" / "Record a lapse" (`onReset`), and delete.
 
@@ -59,3 +60,15 @@ leave an empty gap above the tab bar.
 ## Notes for changes
 - `onReset` here is wired to `RootNavigator.recordSlip` (confirm + reset).
 - Keep streak/money/health math in `utils`.
+
+Timeline copy is intentionally cautious and distinguishes established physical
+changes from behavioral reflection points where long-term causal evidence is
+limited. Research basis:
+
+- [CDC — Benefits of Quitting Smoking](https://www.cdc.gov/tobacco/about/benefits-of-quitting.html)
+- [NIAAA — Recovery definitions](https://www.niaaa.nih.gov/research/niaaa-recovery-from-alcohol-use-disorder/definitions)
+- [NIAAA — Brain in addiction and recovery](https://www.niaaa.nih.gov/health-professionals-communities/core-resource-on-alcohol/neuroscience-brain-addiction-and-recovery)
+- [NIDA — Drugs, Brains, and Behavior](https://nida.nih.gov/sites/default/files/soa_2014.pdf)
+- [PubMed — Gambling disorder 12-month follow-up](https://pubmed.ncbi.nlm.nih.gov/28365465/)
+- [PubMed — One-week social-media break RCT](https://pubmed.ncbi.nlm.nih.gov/35512731/)
+- [PubMed — Three-week screen-time reduction RCT](https://pubmed.ncbi.nlm.nih.gov/39985031/)

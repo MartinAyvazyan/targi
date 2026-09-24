@@ -26,8 +26,8 @@ const copy = {
     progressEyebrow: 'Առաջընթաց', yourJourneys: 'Քո ընթացքները', progressIntro: 'Բացիր քարտը՝ նպատակներն ու փոփոխությունները տեսնելու համար։',
     noJourney: 'Դեռ ընթացք չկա', noJourneyBody: 'Սկսիր մեկ սովորությունից, որը ուզում ես փոխել։', currentRun: 'ընթացիկ ընթացք', remaining: 'մնաց',
     deleteJourney: 'Ջնջե՞լ ընթացքը', deleteBody: 'ընթացքը ամբողջությամբ կջնջվի։', cancel: 'Չեղարկել', delete: 'Ջնջել', totalDays: 'ընդհանուր օրեր', bestRun: 'ամենաերկար ընթացք',
-    savedMoney: 'խնայած գումար', milestone: 'Նպատակ', target: 'Նպատակ', completed: 'Ավարտված', pickNext: 'Նպատակը պատրաստ է․ ընտրիր հաջորդը', changes: 'Ինչ է փոխվում մարմնում',
-    next: 'Հաջորդը', disclaimer: 'Սա բժշկական խորհրդատվություն չէ․ փոփոխությունները կարող են տարբեր լինել մարդկանց մոտ։', settings: 'Կարգավորումներ', save: 'Պահել', edit: 'Խմբագրել',
+    savedMoney: 'խնայած գումար', milestone: 'Նպատակ', target: 'Նպատակ', completed: 'Ավարտված', pickNext: 'Նպատակը պատրաստ է․ ընտրիր հաջորդը', changes: 'Ինչ կարող է փոխվել',
+    next: 'Հաջորդը', yearTimelineComplete: 'Մեկ տարվա փուլերը բացված են', yearTimelineBody: 'Առաջընթացը շարունակվում է նաև մեկ տարուց հետո։ Գնահատիր քո իրական ինքնազգացողությունն ու աջակցությունը։', disclaimer: 'Սրանք ընդհանուր, մոտավոր փուլեր են, ոչ բժշկական խոստումներ։ Փոփոխությունները կախված են մարդուց, սովորությունից և բուժումից։', settings: 'Կարգավորումներ', save: 'Պահել', edit: 'Խմբագրել',
     journeyName: 'Ընթացքի անուն', dailyCost: 'Օրական ծախս', began: 'Սկիզբ', restart: 'Խախտել',
   },
   en: {
@@ -50,8 +50,8 @@ const copy = {
     progressEyebrow: 'Progress', yourJourneys: 'Your journeys', progressIntro: 'Open a card to see goals and changes over time.',
     noJourney: 'No journey yet', noJourneyBody: 'Start with one habit you want to change.', currentRun: 'current run', remaining: 'remaining',
     deleteJourney: 'Delete this journey?', deleteBody: 'will be permanently deleted.', cancel: 'Cancel', delete: 'Delete', totalDays: 'total days', bestRun: 'longest run',
-    savedMoney: 'money saved', milestone: 'Goal', target: 'Target', completed: 'Completed', pickNext: 'Goal reached. Choose the next one', changes: 'What is changing in your body',
-    next: 'Next', disclaimer: 'This is not medical advice. Changes can vary from person to person.', settings: 'Settings', save: 'Save', edit: 'Edit',
+    savedMoney: 'money saved', milestone: 'Goal', target: 'Target', completed: 'Completed', pickNext: 'Goal reached. Choose the next one', changes: 'What may change',
+    next: 'Next', yearTimelineComplete: 'The one-year timeline is unlocked', yearTimelineBody: 'Progress continues after one year. Review your actual wellbeing and the support that works for you.', disclaimer: 'These are general, approximate stages—not medical promises. Changes depend on the person, habit, and treatment.', settings: 'Settings', save: 'Save', edit: 'Edit',
     journeyName: 'Journey name', dailyCost: 'Daily cost', began: 'Started', restart: 'Record a lapse',
   },
 } as const;
