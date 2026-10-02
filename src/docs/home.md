@@ -10,3 +10,7 @@ is intentionally compact, with an expanded invisible hit area so it remains easy
 to tap without dominating the journey card. There is no daily confirmation and no
 reminder state. `getCurrentRunDays` derives the
 counter from `startDate` every time the app renders.
+
+The native iOS startup also removes all pending and delivered notifications.
+This cleanup prevents reminder notifications scheduled by an older app version
+from appearing after a user updates to the reminder-free version.

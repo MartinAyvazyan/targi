@@ -74,6 +74,9 @@ spec before changing a feature.
   Always go through `src/utils/date.ts`.
 - **Persistence keys are versioned** (`recovery-periods-v1`). Bump the version
   and add a migration if the `RecoveryPeriod` shape changes.
+- **The iOS release currently targets iPhone only.** Keep Expo's
+  `ios.supportsTablet` and Xcode's `TARGETED_DEVICE_FAMILY` aligned when changing
+  device support.
 
 ## Feature specs
 

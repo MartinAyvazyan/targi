@@ -1,6 +1,7 @@
 internal import Expo
 import React
 import ReactAppDependencyProvider
+import UserNotifications
 
 @main
 class AppDelegate: ExpoAppDelegate {
@@ -13,6 +14,12 @@ class AppDelegate: ExpoAppDelegate {
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
+    // Reminders were removed from the app. Clear notifications that an older
+    // version may still have scheduled, plus any reminder already delivered.
+    let notificationCenter = UNUserNotificationCenter.current()
+    notificationCenter.removeAllPendingNotificationRequests()
+    notificationCenter.removeAllDeliveredNotifications()
+
     let delegate = ReactNativeDelegate()
     let factory = ExpoReactNativeFactory(delegate: delegate)
     delegate.dependencyProvider = RCTAppDependencyProvider()

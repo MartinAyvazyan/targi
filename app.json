@@ -13,7 +13,7 @@
     },
     "ios": {
       "bundleIdentifier": "com.ayvazyan.targi",
-      "supportsTablet": true
+      "supportsTablet": false
     },
     "android": {
       "package": "com.ayvazyan.targi",
